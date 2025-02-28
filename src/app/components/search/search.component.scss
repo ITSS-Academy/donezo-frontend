@@ -1,0 +1,27 @@
+#container {
+  width: 100%;
+  height: 100%;
+
+  .search-text {
+    padding: 10px 5px;
+    width: fit-content;
+    height: fit-content;
+    background-color: var(--md-sys-color-surface-container-high);
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+
+    #menu-icon{
+      padding-left: 10px;
+    }
+
+    p{
+      margin: 0;
+      padding-left: 5px;
+    }
+
+    #search-icon{
+      padding-left: 5px;
+    }
+  }
+}
