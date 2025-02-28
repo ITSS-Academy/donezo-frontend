@@ -1,20 +1,32 @@
-<div cdkDropListGroup class="kanban">
-  @for (list of lists; track $index) {
-    <div class="example-container">
-      <div class="header">
-        <p>{{ list.title }}</p>
-        <button class="btn" mat-stroked-button>+ Add Card</button>
-      </div>
-      <div cdkDropList [cdkDropListData]="list.tasks" class="tasks-list"
-           (cdkDropListDropped)="drop($any($event))">
-        @for (task of list.tasks; track $index) {
-          <div class="example-box" cdkDrag>{{ task.title }}</div>
-        }
+<div
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  class="column-container"
+  [cdkDropListData]="columns"
+  (cdkDropListDropped)="dropColumn($event)"
+>
+  <div *ngFor="let column of columns" class="column-box" cdkDrag>
+    <div class="column-header">
+      <p>{{ column.title }}</p>
+      <button mat-raised-button color="primary" (click)="openDialog(column)">Pick one</button>
+    </div>
+    <div
+      cdkDropList
+      [id]="column.id"
+      [cdkDropListData]="column.tasks"
+      [cdkDropListConnectedTo]="dropListIds"
+      class="task-list"
+      (cdkDropListDropped)="dropCard($event)"
+    >
+      <div *ngFor="let task of column.tasks" class="task-box" cdkDrag>
+        <div id="info">
+        <p> {{ task.title }}</p>
+        <p> {{ task.time }} </p>
+        </div>
+        <div id="btn">
+        <button mat-icon-button color="warn" (click)="deleteTask(column, task)"><mat-icon>close</mat-icon></button>
+        </div>
       </div>
     </div>
-  }
-  <div>
-    <button class="btn-add" mat-stroked-button>+ Add List</button>
   </div>
 </div>
-
