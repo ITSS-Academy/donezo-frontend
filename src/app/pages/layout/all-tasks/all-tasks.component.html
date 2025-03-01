@@ -1,3 +1,14 @@
+
+<div class="container">
+  <div class="header">
+    <h5>Table</h5>
+      <div (click)="openDialog('0ms', '0ms')" class="dialog-filter">
+        <mat-icon>filter_list</mat-icon>
+        <p>Filter</p>
+      </div>
+  </div>
+
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
 
@@ -34,5 +45,5 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-
+</div>
 
