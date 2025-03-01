@@ -1,0 +1,19 @@
+
+<div class="filter-page">
+  <p>Filter</p>
+  <div class="top-page">
+    <p>Table</p>
+    <mat-card>
+      <mat-card-content>
+        <section class="example-section">
+          <p>Tag</p>
+          <mat-checkbox class="example-margin" [(ngModel)]="checked">Done</mat-checkbox>
+          <mat-checkbox class="example-margin" [(ngModel)]="indeterminate">Not done</mat-checkbox>
+        </section>
+        <mat-form-field class="check-box">
+        <input matInput (keyup)="checked()" placeholder="Search">
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+</div>
+</div>
