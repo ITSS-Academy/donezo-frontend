@@ -9,7 +9,20 @@ body{
 }
 
 tr:hover td {
-  background-color: var(--md-sys-color-on-secondary);
-  color: var(--md-sys-color-on-secondary-container);
+  background-color: var(--md-sys-color-on-primary-container);
+  color: var(--md-sys-color-inverse-surface);
 
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-icon {
+  cursor: pointer;
+  font-size: 20px;
+}
+.header h6 {
+  font-size: 15px;
 }
