@@ -3,10 +3,9 @@
   justify-content: center;
   align-items: center;
   background: var(--md-sys-color-on);
-
   .new-board {
-    width: 320px;
-    background: var(--md-sys-color-primary-container);
+    width: 350px;
+    background: var(--md-sys-color-secondary-container);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -22,7 +21,6 @@
     height: 180px;
     border-radius: 8px;
   }
-
   .bottom p {
     font-size: 14px;
     font-weight: bold;
@@ -59,7 +57,6 @@
     height: 40px;
     border-radius: 4px;
   }
-
   .name {
     display: flex;
     flex-direction: column;
@@ -90,5 +87,4 @@
     margin-top: 12px;
     transition: background 0.3s;
   }
-
 }

@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, inject, Output, ViewChild} from '@angular/core';
 import {MatSidenav} from "@angular/material/sidenav";
 import {MaterialModule} from "../../shared/modules/material.module";
 import {DrawerService} from "../../services/drawer.service";
 import {RouterLink} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateBoardComponent} from '../create-board/create-board.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -64,5 +66,14 @@ export class SidebarComponent {
 
   toggleDrawer(drawerName:string) {
     this.onToggleDrawer.emit(drawerName)
+  }
+  readonly dialog = inject(MatDialog);
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(CreateBoardComponent, {
+      width: '350px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
   }
 }
