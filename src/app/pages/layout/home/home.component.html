@@ -16,13 +16,19 @@
     </div>
     <div class="board">
       <p>Personal</p>
-      <mat-icon aria-hidden="false" aria-label="Example more_vert icon" fontIcon="more_vert"></mat-icon>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon aria-hidden="false" aria-label="Example more_vert icon" fontIcon="more_vert"></mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Fix</button>
+        <button mat-menu-item>Delete</button>
+      </mat-menu>
     </div>
   </div>
   <h5>Invited boards</h5>
   <div class="board-list">
     <div class="board">
-      <p>Work</p>
+      <p>Trip To Japan</p>
       <mat-icon aria-hidden="false" aria-label="Example more_vert icon" fontIcon="more_vert"></mat-icon>
     </div>
   </div>
