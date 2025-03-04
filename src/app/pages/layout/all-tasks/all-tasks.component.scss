@@ -14,22 +14,20 @@ tr:hover td {
 .header  {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-}
 
-.filter-icon {
-  cursor: pointer;
-  font-size: 20px;
-  display: flex;
-}
+  h6 {
+    font-size: 15px;
+  }
 
-.header h6 {
-  font-size: 15px;
-}
-.dialog-filter{
-  display: flex;
-  cursor: pointer;
+  .dialog-filter{
+    display: flex;
+    cursor: pointer;
 
+    p {
+      margin-left: 5px;
+    }
+  }
 }
-
 
