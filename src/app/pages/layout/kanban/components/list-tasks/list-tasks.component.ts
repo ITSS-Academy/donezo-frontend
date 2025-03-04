@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {CommonModule} from '@angular/common';
@@ -24,14 +24,16 @@ export class ListTasksComponent {
       tasks: [
         {
           title: 'Task 1',
-          time: '12 Nov 2022', tags: ['#FF9800'],
+          time: '12 Nov 2022',
+          tags: ['#FF9800'],
           members: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s'],
           comments: 2, attachments: 1,
           checklist: {completed: 1, total: 3}
         },
         {
           title: 'Task 2',
-          time: '13 Nov 2022', tags: ['#F44336', '#00BCD4'],
+          time: '13 Nov 2022',
+          tags: ['#F44336', '#00BCD4'],
           members: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s'],
           comments: 5, attachments: 3,
           checklist: {completed: 2, total: 4}
@@ -151,16 +153,11 @@ export class ListTasksComponent {
   }
 
 
-  openDescriptionDialog(column: any, task: any): void {
-    const dialogRef = this.dialog.open(TaskDescriptionComponent, {
-      width: '400px',
-      data: {task}
-    });
+  descriptionDialog = inject(MatDialog);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        task.description = result;
-      }
+  openDescriptionDialog(data: any): void {
+    this.descriptionDialog.open(TaskDescriptionComponent, {
+      data: data
     });
   }
 

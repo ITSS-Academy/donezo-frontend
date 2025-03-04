@@ -25,12 +25,12 @@
         >
           @for (task of column.tasks; track $index) {
             <div class="task-box" cdkDrag>
-              <div class="task-content" (click)="openDescriptionDialog(column, $event)">
+              <div class="task-content" (click)="openDescriptionDialog(task)">
                 <p class="task-title"> {{ task.title }}</p>
 
 
                 <div class="task-tags">
-                  @for (tag of columns; track $index) {
+                  @for (tag of task.tags; track $index) {
                     <span [ngStyle]="{'background-color': tag}" class="task-tag"></span>
                   }
 
@@ -38,33 +38,35 @@
                 <div class="date">
                   <p class="task-date"> {{ task.time }} </p>
                 </div>
-                <div class="task-members">
-                  @for (member of task.members; track $index) {
-                    <img [src]="member" class="member-avatar"/>
-                  }
-                  @if (task.members.length > 2) {
-                    <span class="more-members">+{{ task.members.length - 2 }}</span>
-                  }
-                </div>
+                <div class="member-meta">
+                  <div class="task-members">
+                    @for (member of task.members; track $index) {
+                      <img [src]="member" class="member-avatar"/>
+                    }
+                    @if (task.members.length > 2) {
+                      <span class="more-members">+{{ task.members.length - 2 }}</span>
+                    }
+                  </div>
 
-                <div class="task-meta">
-                  <div class="meta">
-                    @if (task.comments > 0) {
-                      <mat-icon>chat_bubble</mat-icon>
-                      {{ task.comments }}
-                    }
-                  </div>
-                  <div class="meta">
-                    @if (task.attachments > 0) {
-                      <mat-icon>attach_file</mat-icon>
-                      {{ task.attachments }}
-                    }
-                  </div>
-                  <div class="meta">
-                    @if (task.checklist) {
-                      <mat-icon>check_box</mat-icon>
-                      {{ task.checklist.completed }}/{{ task.checklist.total }}
-                    }
+                  <div class="task-meta">
+                    <div class="meta">
+                      @if (task.comments > 0) {
+                        <mat-icon>chat_bubble</mat-icon>
+                        {{ task.comments }}
+                      }
+                    </div>
+                    <div class="meta">
+                      @if (task.attachments > 0) {
+                        <mat-icon>attach_file</mat-icon>
+                        {{ task.attachments }}
+                      }
+                    </div>
+                    <div class="meta">
+                      @if (task.checklist) {
+                        <mat-icon>check_box</mat-icon>
+                        {{ task.checklist.completed }}/{{ task.checklist.total }}
+                      }
+                    </div>
                   </div>
                 </div>
               </div>

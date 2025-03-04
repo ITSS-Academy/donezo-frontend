@@ -24,15 +24,15 @@
 .task-box {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background: #e0e0e0;
+  background: unset;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
   cursor: grab;
   position: relative;
+  border: var(--md-sys-color-outline-variant) 2px solid;
 
-  #btn {
+  .delete-btn {
     position: absolute;
     right: 10px;
   }
@@ -66,8 +66,6 @@
 
 .task-meta {
   display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: small;
 
   mat-icon {
@@ -88,11 +86,21 @@
 }
 
 .task-members {
+  display: flex;
+  position: relative;
+
   img {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
-    margin-right: 5px;
+    border: 2px solid white; // Để tạo viền trắng giúp phân biệt avatar
+    position: relative;
+    margin-left: -10px; // Dịch avatar về phía trước để chồng lên nhau
+    z-index: 1;
+
+    &:first-child {
+      margin-left: 0; // Avatar đầu tiên không bị lùi vào
+    }
   }
 }
 
@@ -113,11 +121,64 @@
 }
 
 .date {
-  padding: 5px 10px;
+  width: 55%;
+  background-color: var(--md-sys-color-secondary-container);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
 
   p {
-    margin: 0px;
+    margin: 0;
+    width: fit-content;
   }
 }
 
+.task-content {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 
+.task-title {
+  margin-bottom: 5px;
+}
+
+.member-meta {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.task-tags {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  min-height: 10px;
+  gap: 3px;
+  margin-bottom: 5px;
+}
+
+.task-tag {
+  display: block;
+  width: 30px;
+  height: 4px;
+  border-radius: 10px;
+}
+
+.more-members {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid white;
+  position: relative;
+  margin-left: -10px;
+  z-index: 1;
+  background-color: var(--md-sys-color-secondary-container);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
