@@ -1,5 +1,3 @@
-
-
 table {
   width: 100%;
 
@@ -13,16 +11,23 @@ tr:hover td {
   color: var(--md-sys-color-inverse-surface);
 
 }
-.header {
+.header  {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
+
+  h6 {
+    font-size: 15px;
+  }
+
+  .dialog-filter{
+    display: flex;
+    cursor: pointer;
+
+    p {
+      margin-left: 5px;
+    }
+  }
 }
 
-.filter-icon {
-  cursor: pointer;
-  font-size: 20px;
-}
-.header h6 {
-  font-size: 15px;
-}

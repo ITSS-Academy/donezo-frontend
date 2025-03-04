@@ -1,0 +1,38 @@
+#container {
+  width: 100%;
+  height: fit-content;
+
+  .example-form {
+
+    .example-full-width {
+      width: 100%;
+
+      #search-text {
+        width: 100%;
+        padding: 10px 15px 10px 10px;
+        margin: 0px;
+        display: flex;
+        background-color: var(--md-sys-color-surface-dim);
+        border-radius: 25px;
+
+        input {
+          padding-left: 10px;
+          font-weight: lighter;
+        }
+
+        #search-icon {
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep.mdc-line-ripple::before,
+::ng-deep.mdc-line-ripple::after {
+  border-bottom-style: none !important;
+}
+
+::ng-deep.mat-mdc-text-field-wrapper {
+  padding: 0 !important;
+}
