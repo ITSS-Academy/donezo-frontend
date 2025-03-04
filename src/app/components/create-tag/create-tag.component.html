@@ -1,0 +1,60 @@
+<div id="container">
+  <div id="new-tag">
+    <div id="main">
+      <mat-icon aria-hidden="false" aria-label="Example keyboard_return icon" fontIcon="keyboard_return"></mat-icon>
+      <p>New Tags</p>
+    </div>
+    <div id="body">
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Tag Name</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </form>
+
+      <div class="color-container">
+        <div class="line">
+          @for (color of this.colorArray; track $index) {
+            <div class="color" [ngStyle]="{
+          backgroundColor: color.color
+          }"></div>
+          }
+        </div>
+      </div>
+
+      <button mat-flat-button>Save</button>
+
+    </div>
+  </div>
+
+  <div id="edit-tag">
+    <div id="main">
+      <mat-icon aria-hidden="false" aria-label="Example keyboard_return icon" fontIcon="keyboard_return"></mat-icon>
+      <p>Edit Tags</p>
+    </div>
+    <div id="body">
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Tag Name</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </form>
+
+      <div class="color-container">
+        <div id="colors">
+          <div class="line">
+            @for (color of this.colorArray; track $index) {
+              <div class="color" [ngStyle]="{
+            backgroundColor: color.color
+            }"></div>
+            }
+          </div>
+        </div>
+      </div>
+      <div id="options">
+        <button mat-flat-button>Delete</button>
+        <button mat-flat-button>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
