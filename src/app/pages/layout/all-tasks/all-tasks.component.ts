@@ -1,6 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
 import {MaterialModule} from '../../../shared/modules/material.module';
+import {filter} from 'rxjs';
+import {MatDialog} from '@angular/material/dialog';
+import {FilterComponent} from '../../../components/filter/filter.component';
 
 export interface Task {
   tag: number;
@@ -24,6 +27,17 @@ export class AllTasksComponent {
   displayedColumns: string[] = ['Tag', 'List', 'Description', 'Name', 'Time'];
   dataSource = ELEMENT_DATA;
   protected readonly MaterialModule = MaterialModule;
+  // protected readonly filter = filter;
+
+  readonly dialog = inject(MatDialog);
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(FilterComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
 }
 
 
@@ -36,10 +50,10 @@ const ELEMENT_DATA: Task[] = [
   {tag: 6, list: 'Kanban', description: "not done", name: 'F', time: "one week"},
   {tag: 7, list: 'All board', description: "not done", name: 'J', time: "one week"},
   {tag: 8, list: 'sign in', description: "not done", name: 'K', time: "three days"},
-  {tag: 8, list: 'sign out', description: "not done", name: 'L', time: "two days"},
-  {tag: 8, list: 'services', description: "not done", name: 'S', time: "one day"},
-  {tag: 8, list: 'shared', description: "not done", name: 'X', time: "five days"},
-  {tag: 8, list: 'styles', description: "done", name: 'Z', time: "one month"},
+  {tag: 9, list: 'sign out', description: "not done", name: 'L', time: "two days"},
+  {tag: 10, list: 'services', description: "not done", name: 'S', time: "one day"},
+  {tag: 11, list: 'shared', description: "not done", name: 'X', time: "five days"},
+  {tag: 12, list: 'styles', description: "done", name: 'Z', time: "one month"},
 
 ];
 
