@@ -5,13 +5,16 @@ import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {TaskComponent} from './components/task/task.component';
+import {TaskDescriptionComponent} from '../task-description/task-description.component';
+import {MatFormField, MatInput} from '@angular/material/input';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-list-tasks',
   templateUrl: './list-tasks.component.html',
   styleUrls: ['./list-tasks.component.scss'],
   standalone: true,
-  imports: [CommonModule, CdkDropList, CdkDrag, MatButtonModule, MatIconModule]
+  imports: [CommonModule, CdkDropList, CdkDrag, MatButtonModule, MatIconModule, MatInput, MatFormField, FormsModule]
 })
 export class ListTasksComponent {
   columns = [
@@ -105,6 +108,7 @@ export class ListTasksComponent {
     }
   ];
 
+  showColumnInput = false;
 
   constructor(public dialog: MatDialog) {
   }
@@ -132,13 +136,50 @@ export class ListTasksComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        column.tasks.push({title: result, time: new Date().toLocaleDateString()});
+      if (result && typeof result === 'string' && result.trim()) {
+        column.tasks.push({
+          title: result.trim(),
+          time: new Date().toLocaleDateString(),
+          tags: [],
+          members: [],
+          comments: 0,
+          attachments: 0,
+          checklist: {completed: 0, total: 0}
+        });
       }
     });
   }
 
+
+  openDescriptionDialog(column: any, task: any): void {
+    const dialogRef = this.dialog.open(TaskDescriptionComponent, {
+      width: '400px',
+      data: {task}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        task.description = result;
+      }
+    });
+  }
+
+
   deleteTask(column: any, task: any): void {
     column.tasks = column.tasks.filter((t: any) => t !== task);
   }
+
+  addColumn(title: string): void {
+    if (title.trim()) {
+      this.columns.push({
+        id: title.toLowerCase().replace(/\s+/g, '-'),
+        title,
+        tasks: []
+      });
+    }
+    this.showColumnInput = false;
+  }
+
+  protected readonly TaskDescriptionComponent = TaskDescriptionComponent;
+  value = '';
 }

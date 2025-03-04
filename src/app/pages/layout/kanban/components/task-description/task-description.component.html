@@ -1,1 +1,8 @@
-<p>task-description works!</p>
+<h2 mat-dialog-title>Task Description</h2>
+<mat-dialog-content>
+  <p>{{ data.task.title }}</p>
+  <textarea [(ngModel)]="data.task.description" rows="5" cols="20"></textarea>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>
