@@ -1,22 +1,17 @@
 import {Component, model} from '@angular/core';
-import {MatCard, MatCardContent} from '@angular/material/card';
 import {MatCheckbox} from '@angular/material/checkbox';
-import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {FormsModule} from '@angular/forms';
-import {MatFormField, MatInput} from '@angular/material/input';
+import {MatButton} from '@angular/material/button';
+import {MaterialModule} from '../../shared/modules/material.module';
+
 
 @Component({
   selector: 'app-filter',
   standalone: true,
   imports: [
-    MatCardContent,
-    MatCard,
     MatCheckbox,
-    MatRadioGroup,
-    MatRadioButton,
     FormsModule,
-    MatInput,
-    MatFormField
+    MaterialModule
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'

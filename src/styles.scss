@@ -1,6 +1,5 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
-@use "./app/styles/m3-theme" as m3-theme;
 
 @include mat.core();
 
@@ -128,7 +127,7 @@ $_palettes: (
 $_rest: (
   secondary: map.get($_palettes, secondary),
   neutral: map.get($_palettes, neutral),
-  neutral-variant: map.get($_palettes,  neutral-variant),
+  neutral-variant: map.get($_palettes, neutral-variant),
   error: map.get($_palettes, error),
 );
 $_primary: map.merge(map.get($_palettes, primary), $_rest);
@@ -139,10 +138,9 @@ $light-theme: mat.define-theme((
     theme-type: light,
     primary: $_primary,
     tertiary: $_tertiary,
-    use-system-variables: true,
   ),
-  typography: (
-    use-system-variables: true,
+  density: (
+    scale: 0,
   ),
 ));
 $dark-theme: mat.define-theme((
@@ -150,10 +148,9 @@ $dark-theme: mat.define-theme((
     theme-type: dark,
     primary: $_primary,
     tertiary: $_tertiary,
-    use-system-variables: true,
   ),
-  typography: (
-    use-system-variables: true,
+  density: (
+    scale: 0,
   ),
 ));
 
@@ -212,7 +209,8 @@ $dark-theme: mat.define-theme((
     --md-sys-color-surface-container: #F1ECF5;
     --md-sys-color-surface-container-high: #EBE6EF;
     --md-sys-color-surface-container-highest: #E5E1EA;
-  };
+  }
+;
 
   .dark-theme {
     --md-sys-color-primary: #C7BFFF;
@@ -264,7 +262,7 @@ $dark-theme: mat.define-theme((
     --md-sys-color-surface-container: #201F25;
     --md-sys-color-surface-container-high: #2A292F;
     --md-sys-color-surface-container-highest: #35343A;
-}
+  }
 }
 
 body.light-theme {
@@ -278,9 +276,7 @@ body.dark-theme {
 
 html {
   // Apply the light theme by default
-  @include mat.all-component-themes($light-theme  );
-  @include mat.core-theme($light-theme);
-  @include mat.button-theme(m3-theme.$light-theme);
+  @include mat.all-component-themes($light-theme);
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
@@ -291,8 +287,15 @@ html {
 // @include mat.color-variants-backwards-compatibility($donezo_frontend-theme);
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-*{
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
   box-sizing: border-box;
 }

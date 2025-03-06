@@ -1,4 +1,4 @@
-import {Component, inject, ViewChild} from '@angular/core';
+import {Component, inject, ViewChild, AfterViewInit} from '@angular/core';
 import {MaterialModule} from '../../../shared/modules/material.module';
 import {MatDialog} from '@angular/material/dialog';
 import {FilterComponent} from '../../../components/filter/filter.component';
@@ -8,9 +8,9 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 export interface Task {
   tag: number;
-  name: string;
   list: string;
   description: string;
+  name: string;
   time: string;
 }
 
@@ -24,7 +24,9 @@ export interface Task {
   templateUrl: './all-tasks.component.html',
   styleUrl: './all-tasks.component.scss'
 })
-export class AllTasksComponent {
+
+
+export class AllTasksComponent implements AfterViewInit {
   displayedColumns: string[] = ['Tag', 'List', 'Description', 'Name', 'Time'];
   dataSource = new MatTableDataSource<Task>(ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
