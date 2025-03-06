@@ -10,14 +10,21 @@ import {getAuth, provideAuth} from '@angular/fire/auth';
 import {provideHttpClient} from '@angular/common/http';
 import {authReducer} from './ngrx/auth.reducer';
 import * as AuthEffects from './ngrx/auth.effects';
+import {boardReducer} from './ngrx/board/board.reducer';
+import * as BoardEffects from './ngrx/board/board.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({eventCoalescing: true}), provideRouter(routes), provideAnimationsAsync(),
     provideHttpClient(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(),
+
     provideStore({
-      auth: authReducer
+      auth: authReducer,
+      board: boardReducer
     }), provideEffects(
-      [AuthEffects]
+      [
+        AuthEffects,
+        BoardEffects
+      ]
     ), provideFirebaseApp(() => initializeApp({
       "projectId": "todolist-246-25a",
       "appId": "1:874799892031:web:fa30d86d48e86ee60c1a8a",

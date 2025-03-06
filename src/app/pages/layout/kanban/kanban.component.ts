@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {ListTasksComponent} from "./components/list-tasks/list-tasks.component";
-import {MatButton} from '@angular/material/button';
+import {KanbanNavbarComponent} from './components/kanban-navbar/kanban-navbar.component';
 
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [ListTasksComponent, MatButton],
+  imports: [ListTasksComponent, KanbanNavbarComponent],
   templateUrl: './kanban.component.html',
   styleUrl: './kanban.component.scss'
 })
