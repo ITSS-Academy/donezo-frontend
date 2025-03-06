@@ -2,23 +2,34 @@
   <div class="new-board">
     <div class="top">
       <p>New Board</p>
-      <img src="https://images.pexels.com/photos/1632780/pexels-photo-1632780.jpeg?auto=compress&cs=tinysrgb&w=600" alt="ảnh">
+      <img [src]="newBoardImage" alt="ảnh">
     </div>
 
     <div class="bottom">
       <p>Background</p>
       <div class="background">
-        <img src="https://images.pexels.com/photos/1632780/pexels-photo-1632780.jpeg?auto=compress&cs=tinysrgb&w=600" alt="ảnh">
-        <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474077CLI/4k-wallpaper_105906912.jpg" alt="ảnh">
-        <img src="https://png.pngtree.com/background/20250104/original/pngtree-free-hd-wallpaper-4k-new-background-picture-image_15546678.jpg" alt="ảnh">
-        <img src="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=600" alt="ảnh">
+        <img src="https://images.pexels.com/photos/1632780/pexels-photo-1632780.jpeg?auto=compress&cs=tinysrgb&w=600"
+             alt="ảnh">
+        <img
+          src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474077CLI/4k-wallpaper_105906912.jpg"
+          alt="ảnh">
+        <img
+          src="https://png.pngtree.com/background/20250104/original/pngtree-free-hd-wallpaper-4k-new-background-picture-image_15546678.jpg"
+          alt="ảnh">
+        <img src="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=600"
+             alt="ảnh">
       </div>
       <div class="backgrounds">
-        <img src="https://images.pexels.com/photos/2246476/pexels-photo-2246476.jpeg?auto=compress&cs=tinysrgb&w=600" alt="ảnh">
-        <img src="https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=600" alt="ảnh">
-        <img src="https://images.pexels.com/photos/592077/pexels-photo-592077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="ảnh">
-        <img src="https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=600" alt="ảnh">
-        <mat-icon aria-hidden="false" aria-label="Example more_horiz icon" fontIcon="more_horiz"></mat-icon>
+        <img src="https://images.pexels.com/photos/2246476/pexels-photo-2246476.jpeg?auto=compress&cs=tinysrgb&w=600"
+             alt="ảnh">
+        <img src="https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=600"
+             alt="ảnh">
+        <img src="https://images.pexels.com/photos/592077/pexels-photo-592077.jpeg?auto=compress&cs=tinysrgb&w=600"
+             alt="ảnh">
+        <img src="https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=600"
+             alt="ảnh">
+        <mat-icon (click)="inputFile.click()" aria-hidden="false" aria-label="Example more_horiz icon"
+                  fontIcon="more_horiz"></mat-icon>
       </div>
     </div>
     <div class="name">
@@ -36,3 +47,4 @@
   </div>
 </div>
 
+<input type="file" style="display: none" #inputFile (change)="this.onFileChange($event)" accept="image/*">

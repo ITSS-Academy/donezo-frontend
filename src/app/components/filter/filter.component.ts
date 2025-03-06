@@ -2,6 +2,7 @@ import {Component, model} from '@angular/core';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
+import {MaterialModule} from '../../shared/modules/material.module';
 
 
 @Component({
@@ -10,7 +11,7 @@ import {MatButton} from '@angular/material/button';
   imports: [
     MatCheckbox,
     FormsModule,
-    MatButton
+    MaterialModule
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'

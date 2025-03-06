@@ -1,0 +1,201 @@
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  width: 100%;
+  margin: 5px 0 15px;
+  resize: none;
+  min-height: 60px;
+}
+
+.task-members {
+  display: flex;
+  position: relative;
+  margin-bottom: 10px;
+
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid white; // Viền trắng để phân biệt avatar
+    position: relative;
+    margin-left: -10px; // Chồng lên avatar trước đó
+    z-index: 1;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.task-tag {
+  display: flex;
+  width: 50px;
+  height: 18px;
+  border-radius: 10px;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+  color: var(--md-sys-color-on-primary);
+}
+
+.task-tags {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  min-height: 10px;
+  gap: 3px;
+  margin-bottom: 5px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+::ng-deep.mdc-dialog--open .mat-mdc-dialog-inner-container {
+  width: 500px;
+  height: fit-content;
+  max-height: 80vh;
+}
+
+
+.date {
+  border: 1px solid var(--md-sys-color-outline-variant);
+  padding: 5px 5px;
+  border-radius: 10px;
+  font-size: 14px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.info-left {
+  p {
+    margin-bottom: 18px;
+  }
+}
+
+.menu {
+  display: flex;
+  gap: 10px;
+}
+
+::ng-deep.mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
+}
+
+::ng-deep.mat-mdc-dialog-content > :last-child {
+  font-size: 16px;
+}
+
+::ng-deep.mat-mdc-unelevated-button:not(:disabled) {
+  height: 24px;
+}
+
+.btn {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 5px;
+}
+
+.subtasks {
+  margin-bottom: 15px;
+}
+
+.file {
+}
+
+.file-content {
+  display: flex;
+  gap: 10px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.delete {
+  width: 48px;
+  height: 48px;
+  color: darkred;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #F1E4E4;
+    border-radius: 50px;
+  }
+}
+
+.download {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ECE9EB;
+    border-radius: 50px;
+  }
+}
+
+.file-content-left {
+  display: flex;
+}
+
+.comments {
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+}
+
+::ng-deep .mat-mdc-dialog-content {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar on IE and Edge */
+}
+
+::ng-deep .mat-mdc-dialog-content::-webkit-scrollbar {
+  display: none; /* Hide scrollbar on Chrome, Safari, and Opera */
+}
+
+::ng-deep.mat-typography h2 {
+  margin: 0;
+}
+
+.people {
+  display: flex;
+  gap: 15px;
+
+  p {
+    margin: 0;
+  }
+
+  img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+.about {
+  .on {
+    font-size: 16px;
+  }
+
+  .off {
+    font-size: 14px;
+  }
+}
