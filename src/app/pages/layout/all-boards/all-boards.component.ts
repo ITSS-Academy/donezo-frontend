@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import {CreateTagComponent} from '../../../components/create-tag/create-tag.component';
+import {CreateTagsComponent} from '../kanban/components/create-tags/create-tags.component';
 
 @Component({
   selector: 'app-all-boards',
   standalone: true,
   imports: [
-    CreateTagComponent
+    CreateTagsComponent
   ],
   templateUrl: './all-boards.component.html',
   styleUrl: './all-boards.component.scss'

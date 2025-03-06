@@ -6,7 +6,7 @@ import {NgStyle} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 
 @Component({
-  selector: 'app-create-tag',
+  selector: 'app-create-tags',
   standalone: true,
   imports: [
     MatIcon,
@@ -16,10 +16,10 @@ import {MatButton} from '@angular/material/button';
     NgStyle,
     MatButton
   ],
-  templateUrl: './create-tag.component.html',
-  styleUrl: './create-tag.component.scss'
+  templateUrl: './create-tags.component.html',
+  styleUrl: './create-tags.component.scss'
 })
-export class CreateTagComponent {
+export class CreateTagsComponent {
  //new color array
   colorArray = [
     {name: 'Red', color: '#FF0000'},
