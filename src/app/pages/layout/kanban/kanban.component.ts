@@ -11,4 +11,5 @@ import {KanbanNavbarComponent} from './components/kanban-navbar/kanban-navbar.co
 })
 export class KanbanComponent {
 
+  protected readonly open = open;
 }

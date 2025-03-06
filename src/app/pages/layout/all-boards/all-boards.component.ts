@@ -1,4 +1,4 @@
-import {CreateTagComponent} from '../../../components/create-tag/create-tag.component';
+import { CreateTagsComponent } from '../kanban/components/create-tags/create-tags.component';
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../../shared/modules/material.module';
 
@@ -6,7 +6,7 @@ import { MaterialModule } from '../../../shared/modules/material.module';
   selector: 'app-all-boards',
   standalone: true,
   imports: [
-    CreateTagComponent,
+    CreateTagsComponent,
     MaterialModule
   ],
   templateUrl: './all-boards.component.html',

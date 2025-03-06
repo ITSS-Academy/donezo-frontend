@@ -4,12 +4,14 @@ import {AuthState} from '../../ngrx/auth.state';
 import {Store} from '@ngrx/store';
 import * as authActions from '../../ngrx/auth.actions';
 import {Router} from '@angular/router';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
   imports: [
-    MatButton
+    MatButton,
+    MatIcon
   ],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
