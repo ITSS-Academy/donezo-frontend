@@ -1,6 +1,7 @@
 <div class="sidebar">
   <div class="logo">
-    <mat-icon class="material-symbols-outlined" >assignment</mat-icon> Taskly
+    <mat-icon class="material-symbols-outlined">assignment</mat-icon>
+    Donezo
   </div>
 
   <button (click)="openDialog('0ms', '0ms')" class="btn-create" mat-flat-button>
@@ -10,15 +11,16 @@
   <mat-selection-list>
     @for (page of navLinks; track $index) {
       @if (page.name == 'Notifications' || page.name == 'Search') {
-        <mat-list-item (click)="toggleDrawer(page.name)" >
+        <mat-list-item (click)="toggleDrawer(page.name)">
           <mat-icon [fontIcon]="page.icon" class="icon"></mat-icon>
           {{ page.name }}
         </mat-list-item>
 
       } @else {
-        <mat-list-item (click)="toggleDrawer(page.name)" [routerLink]="page.route" >
+        <mat-list-item (click)="toggleDrawer(page.name)" [routerLink]="page.route">
           <mat-icon [fontIcon]="page.icon" class="icon"></mat-icon>
-          {{ page.name }}</mat-list-item
+          {{ page.name }}
+        </mat-list-item
         >
       }
 
@@ -53,7 +55,8 @@
 
 
   <div class="profile">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s" alt="Profile">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s"
+         alt="Profile">
     <div class="info">
       <p>Name</p>
       <span>Workspace Account</span>
