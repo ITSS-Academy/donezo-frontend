@@ -1,10 +1,11 @@
-import {Component, inject} from '@angular/core';
-
+import {Component, inject, ViewChild} from '@angular/core';
 import {MaterialModule} from '../../../shared/modules/material.module';
-import {filter} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {FilterComponent} from '../../../components/filter/filter.component';
-
+import {NgxDatatableModule} from '@swimlane/ngx-datatable';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 export interface Task {
   tag: number;
   name: string;
@@ -18,14 +19,19 @@ export interface Task {
   selector: 'app-all-tasks',
   standalone: true,
   imports: [
-    MaterialModule
+    MaterialModule, NgxDatatableModule, NgxPaginationModule,
   ],
   templateUrl: './all-tasks.component.html',
   styleUrl: './all-tasks.component.scss'
 })
 export class AllTasksComponent {
   displayedColumns: string[] = ['Tag', 'List', 'Description', 'Name', 'Time'];
-  dataSource = ELEMENT_DATA;
+  dataSource = new MatTableDataSource<Task>(ELEMENT_DATA);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
   protected readonly MaterialModule = MaterialModule;
   // protected readonly filter = filter;
 
@@ -38,6 +44,8 @@ export class AllTasksComponent {
       exitAnimationDuration,
     });
   }
+
+
 }
 
 
@@ -54,7 +62,11 @@ const ELEMENT_DATA: Task[] = [
   {tag: 10, list: 'services', description: "not done", name: 'S', time: "one day"},
   {tag: 11, list: 'shared', description: "not done", name: 'X', time: "five days"},
   {tag: 12, list: 'styles', description: "done", name: 'Z', time: "one month"},
-
+  {tag: 13, list: 'styles', description: "done", name: 'Z', time: "one month"},
+  {tag: 14, list: 'styles', description: "done", name: 'Z', time: "one month"},
+  {tag: 15, list: 'styles', description: "done", name: 'Z', time: "one month"},
+  {tag: 16, list: 'styles', description: "done", name: 'Z', time: "one month"},
+  {tag: 17, list: 'styles', description: "done", name: 'Z', time: "one month"},
 ];
 
 

@@ -1,9 +1,9 @@
 
 <div class="filter-page">
-  <p>Filter</p>
+  <h5>Filter</h5>
   <div class="top-page">
     <p>Table</p>
-    <mat-card>
+
       <mat-card-content>
         <section class="example-section">
           <p>Tag</p>
@@ -14,6 +14,13 @@
         <input matInput (keyup)="checked()" placeholder="Search">
         </mat-form-field>
       </mat-card-content>
-    </mat-card>
+
 </div>
+  <p>Member</p>
+  <div class="members-list">
+    <mat-radio-group>
+      <mat-radio-button class="member-option" value="assigned">Các thẻ chỉ định cho tôi</mat-radio-button>
+      <mat-radio-button class="member-option last-option" value="none">Không có thành viên</mat-radio-button>
+    </mat-radio-group>
+  </div>
 </div>
