@@ -51,6 +51,7 @@ export const boardReducer = createReducer(
   on(boardActions.createBoardSuccess, (state, {board}) => {
     return {
       ...state,
+      boards: [board,...state.boards],
       isCreateBoardLoading: false,
       isCreateBoardSuccess: true
     }

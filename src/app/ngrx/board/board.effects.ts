@@ -31,7 +31,7 @@ export const createBoard$ = createEffect(
       ofType(boardActions.createBoard),
       exhaustMap(({board}) => {
           const background = board.background instanceof File ? board.background : null;
-          return boardService.createBoard(board.name, background!).pipe(
+          return boardService.createBoard(board).pipe(
             map((board: any) => boardActions.createBoardSuccess({board})),
             catchError((error: { message: string }) =>
               of(boardActions.createBoardFailure({error: error.message}))

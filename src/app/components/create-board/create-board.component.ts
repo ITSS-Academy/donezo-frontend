@@ -1,23 +1,16 @@
 import {Component, inject} from '@angular/core';
-import {MatButton} from "@angular/material/button";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatIcon} from "@angular/material/icon";
-import {MatInput} from "@angular/material/input";
-import {MatDialog} from '@angular/material/dialog';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {BoardState} from '../../ngrx/board/board.state';
 import * as boardActions from '../../ngrx/board/board.actions';
+import {MaterialModule} from '../../shared/modules/material.module';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-board',
   standalone: true,
   imports: [
-    MatButton,
-    MatFormField,
-    MatIcon,
-    MatInput,
-    MatLabel,
+    MaterialModule,
     ReactiveFormsModule
   ],
   templateUrl: './create-board.component.html',
@@ -28,7 +21,8 @@ export class CreateBoardComponent {
   file!: File;
   nameControl: FormControl = new FormControl('');
 
-  constructor(private store: Store<{ board: BoardState }>) {
+  constructor(private store: Store<{ board: BoardState }>,
+              public dialogRef: MatDialogRef<CreateBoardComponent>) {
   }
 
   onFileChange(event: any): void {
@@ -42,5 +36,6 @@ export class CreateBoardComponent {
 
   createBoard(): void {
     this.store.dispatch(boardActions.createBoard({board: {name: this.nameControl.value, background: this.file}}));
+    this.dialogRef.close();
   }
 }
