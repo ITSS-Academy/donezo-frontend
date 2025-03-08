@@ -44,7 +44,6 @@ export class KanbanComponent implements OnInit, OnDestroy {
   boardId!: string;
   isAddingList = false;
 
-  
 
   openTagsDialog(): void {
     const dialogRef = this.dialog.open(CreateTagsComponent, {
@@ -52,14 +51,6 @@ export class KanbanComponent implements OnInit, OnDestroy {
       width: 'fit-content'
     });
   }
-
-  openMembersDialog(): void {
-    const dialogRef = this.dialog.open(MembersComponent, {
-      data: {},
-      width: 'fit-content'
-    });
-  }
-
 
 
   protected readonly MembersComponent = MembersComponent;
