@@ -21,7 +21,7 @@ import {CreateTagsComponent} from '../create-tags/create-tags.component';
 @Component({
   selector: 'app-task-description',
   templateUrl: './task-description.component.html',
-  styleUrls: ['./task-description.component.scss'],
+  styleUrl: './task-description.component.scss',
   standalone: true,
   imports: [FormsModule, MatButtonModule, MatDialogContent, MatDialogTitle, MatDialogActions, NgStyle, MatIcon, MatDividerModule, MatIconModule, MatCheckbox, MatFormField, MatInput]
 })
@@ -64,5 +64,6 @@ export class TaskDescriptionComponent {
       }
     });
   }
+
 
 }
