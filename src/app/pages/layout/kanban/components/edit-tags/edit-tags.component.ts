@@ -1,27 +1,24 @@
 import { Component } from '@angular/core';
-import {MatIcon} from '@angular/material/icon';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
-import {NgStyle} from '@angular/common';
-import {MatButton} from '@angular/material/button';
+import {MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatIcon} from "@angular/material/icon";
+import {MatInput} from "@angular/material/input";
 
 @Component({
-  selector: 'app-create-tags',
+  selector: 'app-edit-tags',
   standalone: true,
-  imports: [
-    MatIcon,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    NgStyle,
-    MatButton,
-  ],
-  templateUrl: './create-tags.component.html',
-  styleUrl: './create-tags.component.scss'
+    imports: [
+        MatButton,
+        MatFormField,
+        MatIcon,
+        MatInput,
+        MatLabel
+    ],
+  templateUrl: './edit-tags.component.html',
+  styleUrl: './edit-tags.component.scss'
 })
-export class CreateTagsComponent {
+export class EditTagsComponent {
 
- //new color array
   colorArray = [
     {name: 'Red', color: '#FF0000'},
     {name: 'Green', color: '#00FF00'},
