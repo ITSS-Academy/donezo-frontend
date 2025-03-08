@@ -1,9 +1,10 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDrawer, MatDrawerContainer, MatDrawerContent} from "@angular/material/sidenav";
 import {NotificationsComponent} from "../../components/notifications/notifications.component";
-import {RouterOutlet} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from "@angular/router";
 import {SearchComponent} from "../../components/search/search.component";
 import {SidebarComponent} from "../../components/sidebar/sidebar.component";
+import {KanbanNavbarComponent} from './kanban/components/kanban-navbar/kanban-navbar.component';
 
 @Component({
   selector: 'app-layout',
@@ -15,18 +16,31 @@ import {SidebarComponent} from "../../components/sidebar/sidebar.component";
     NotificationsComponent,
     RouterOutlet,
     SearchComponent,
-    SidebarComponent
+    SidebarComponent,
+    KanbanNavbarComponent
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit {
   @ViewChild('drawer') drawer!: MatDrawer;
 
   isDrawerOpen = false;
   activeDrawer: string | null = null;
+  showKanbanNavbar = false;
 
-  constructor() {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.showKanbanNavbar = this.router.url.startsWith('/kanban');
+      }
+    });
   }
 
   toggleDrawer(drawerName: string) {
@@ -53,4 +67,6 @@ export class LayoutComponent {
     this.activeDrawer = null;
     this.isDrawerOpen = false;
   }
+
+
 }

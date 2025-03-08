@@ -2,7 +2,6 @@
 .column-container {
   display: flex;
   gap: 15px;
-  padding: 0 20px 20px 20px;
 }
 
 .column-box {
@@ -190,5 +189,5 @@
 
 ::ng-deep.mat-primary.mat-mdc-button-base {
   box-shadow: none;
-  
+
 }
