@@ -5,6 +5,10 @@
     @for (member of data.members; track $index) {
       <img [src]="member" class="member-avatar"/>
     }
+    <button mat-stroked-button class="add-assignee">
+      <mat-icon>add</mat-icon>
+      Add
+    </button>
   </div>
   <div class="info">
     <div class="info-left">
@@ -37,18 +41,53 @@
       File
     </button>
     <button mat-flat-button>
-      <mat-icon>check_box</mat-icon>
-      Subtasks
-    </button>
-    <button mat-flat-button>
       <mat-icon>today</mat-icon>
       Dueday
     </button>
   </div>
 
-  <div class="subtasks">
-    <p>Subtasks</p>
-    <mat-checkbox class="example-margin">HomeWork</mat-checkbox>
+  <div class="form-group">
+    <div class="checklist-header">
+      <label>Checklist</label>
+      <div class="subtasks-counter">{{ this.completedItems || 0 }}/{{ this.totalItems || 0 }}</div>
+    </div>
+
+    <mat-progress-bar
+      class="example-margin"
+      [mode]="mode"
+      [value]="value"
+      [bufferValue]="bufferValue">
+    </mat-progress-bar>
+
+    <!-- Subtasks List -->
+    <div class="subtasks-list">
+      @for (subtask of checkListItems; track $index) {
+        <div class="subtask-item">
+          <mat-checkbox [checked]="subtask.isCompleted">
+            {{ subtask.title }}
+          </mat-checkbox>
+          <button mat-icon-button class="remove-subtask-button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      }
+
+      <!-- Add New Subtask -->
+      <form [formGroup]="subTaskForm">
+        <div class="add-subtask-container">
+          <mat-checkbox formControlName="isCompleted"></mat-checkbox>
+          <input
+            matInput
+            formControlName="title"
+            class="subtask-input"
+            placeholder="Add a new subtask">
+          <button
+            mat-icon-button>
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
   <div class="file">
     <p>File</p>
