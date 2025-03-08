@@ -17,8 +17,14 @@ export const authGuard: CanActivateFn = async (route, state) => {
 
   if (user) {
     const accessToken = await user.getIdToken();
-    store.dispatch(authActions.storeAccessToken({accessToken}));
-    return true;
+    const idToken = await firstValueFrom(store.select('auth', 'idToken'));
+
+    if (idToken) {
+      return true;
+    } else {
+      // Optionally handle the case where idToken is not available
+      return false;
+    }
   } else {
     router.navigate(['/login']);
     return false;

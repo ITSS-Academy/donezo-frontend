@@ -1,24 +1,27 @@
-import {Component, EventEmitter, inject, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, inject, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatSidenav} from "@angular/material/sidenav";
 import {MaterialModule} from "../../shared/modules/material.module";
 import {DrawerService} from "../../services/drawer.service";
-import {RouterLink} from '@angular/router';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateBoardComponent} from '../create-board/create-board.component';
 import {Store} from '@ngrx/store';
 import {BoardState} from '../../ngrx/board/board.state';
 import * as boardActions from '../../ngrx/board/board.actions';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {BoardModel} from '../../models/board.model';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [MaterialModule, RouterLink],
+  imports: [MaterialModule, RouterLink, AsyncPipe, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
+  boards$!: Observable<BoardModel[] | null>;
+
   @Output() onToggleDrawer = new EventEmitter<string>();
 
   constructor(private drawerService: DrawerService,
@@ -28,17 +31,11 @@ export class SidebarComponent implements OnInit {
     this.store.dispatch(boardActions.getBoards())
   }
 
-  subcripions: Subscription[] = [];
+  supcriptions: Subscription[] = [];
 
   ngOnInit() {
-    this.subcripions.push(
-      this.store.select('board', 'boards').subscribe((boards) => {
-        if (boards) {
-          console.log(boards)
-          this.boards = boards
-        }
-      })
-    )
+    this.boards$ = this.store.select('board', 'boards');
+    console.log('Boards:', this.boards$);
   }
 
   navLinks = [
@@ -85,10 +82,19 @@ export class SidebarComponent implements OnInit {
   readonly dialog = inject(MatDialog);
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(CreateBoardComponent, {
+    const dialogRef = this.dialog.open(CreateBoardComponent, {
       width: '350px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  ngOnDestroy() {
+    this.supcriptions.forEach((sub) => sub.unsubscribe());
+    this.supcriptions = [];
   }
 }
