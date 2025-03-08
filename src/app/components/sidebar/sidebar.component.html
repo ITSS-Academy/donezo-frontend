@@ -33,9 +33,7 @@
   <mat-selection-list>
     @for (board of boards$ | async; track $index) {
       <mat-list-item [routerLink]="['/kanban', board.id]" routerLinkActive="active-link">
-        <img
-          src="{{ board.background }}"
-          alt="" class="background">
+        <img [src]="getBackgroundUrl(board)" alt="Board Background" class="background">
         <span>{{ board.name }}</span>
       </mat-list-item>
     }

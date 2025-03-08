@@ -97,4 +97,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.supcriptions.forEach((sub) => sub.unsubscribe());
     this.supcriptions = [];
   }
+
+  getBackgroundUrl(board: BoardModel): string {
+    if (!board.background) {
+      return ''; // Default empty if background is not set
+    }
+
+    if (typeof board.background === 'object' && 'fileLocation' in board.background) {
+      return board.background.fileLocation || '';
+    }
+
+    return board.background as string;
+  }
+
 }
