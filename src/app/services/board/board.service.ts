@@ -5,23 +5,23 @@ import {BoardState} from '../../ngrx/board/board.state';
 import {AuthState} from '../../ngrx/auth.state';
 import {Observable} from 'rxjs';
 import {BoardModel} from '../../models/board.model';
+import {environment} from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
-  accessToken!: string
+  accessToken!: string;
 
-  constructor(private httpClient: HttpClient,
-              private store: Store<{
-                auth: AuthState
-              }>) {
-    this.store.select('auth', 'idToken').subscribe((accessToken) => {
-      if (accessToken) {
-        console.log(accessToken)
-        this.accessToken = accessToken
-      }
-    })
+  constructor(
+    private httpClient: HttpClient,
+    private store: Store<{
+      auth: AuthState;
+    }>,
+  ) {
+    this.store.select('auth').subscribe((auth) => {
+      this.accessToken = auth.idToken;
+    });
   }
 
   createBoard(board: BoardModel) {
@@ -31,20 +31,32 @@ export class BoardService {
       formData.append('name', board.name);
       console.log(board);
 
-      return this.httpClient.post('http://localhost:3000/board', formData, {
+      return this.httpClient.post(`${environment.apiUrl}/board`, formData, {
         headers: {Authorization: this.accessToken},
       });
     }
 
-    return this.httpClient.post('http://localhost:3000/board', board);
+    return this.httpClient.post(`${environment.apiUrl}/board`, board);
   }
 
-  getBoards() {
-    console.log(this.accessToken)
-    return this.httpClient.get('http://localhost:3000/board/get-all-by-uid', {
-      headers: {
-        Authorization: this.accessToken
-      }
-    })
+  getAllBoards() {
+    return this.httpClient.get(`${environment.apiUrl}/board/get-all-by-uid`, {
+      headers: {Authorization: this.accessToken},
+    });
+  }
+
+  getBoard(id: string): Observable<any> {
+    return this.httpClient.get(`${environment.apiUrl}/board/${id}`, {
+      headers: {Authorization: this.accessToken},
+    });
+  }
+
+  getInvitedBoards() {
+    return this.httpClient.get(
+      `${environment.apiUrl}/board/get-invited-boards`,
+      {
+        headers: {Authorization: this.accessToken},
+      },
+    );
   }
 }

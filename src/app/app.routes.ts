@@ -3,6 +3,7 @@ import {authGuard} from './guards/auth.guard';
 import {SignInComponent} from './pages/sign-in/sign-in.component';
 
 export const routes: Routes = [
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
 
   {
     path: 'login',
@@ -13,6 +14,5 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () => import('./pages/layout/layout.routes').then(m => m.LayoutRoutes),
   },
-
-  {path: '**', redirectTo: 'home'}
+  {path: '**', redirectTo: 'home', pathMatch: 'full'}
 ];

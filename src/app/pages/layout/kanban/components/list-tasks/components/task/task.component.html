@@ -2,11 +2,13 @@
 <mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>Task Name</mat-label>
-    <input matInput [(ngModel)]="taskTitle">
+    <input matInput [formControl]="cardName" (keyup.enter)="createNewTask();onSave()">
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button color="primary" [disabled]="!taskTitle" (click)="onSave()">Save</button>
+  <button mat-button color="primary" [disabled]="!this.cardName.valid"
+          (click)=" createNewTask();onSave() ">Save
+  </button>
 </mat-dialog-actions>
 
