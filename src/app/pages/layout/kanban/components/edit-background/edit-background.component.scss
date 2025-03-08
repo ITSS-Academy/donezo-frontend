@@ -53,18 +53,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 
   .background img {
     width: 60px;
     height: 40px;
     border-radius: 4px;
+    cursor: pointer;
   }
 
   .backgrounds img {
     width: 50px;
     height: 40px;
     border-radius: 4px;
+    cursor: pointer;
+
   }
 
   .name {

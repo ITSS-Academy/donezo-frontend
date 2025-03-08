@@ -3,6 +3,7 @@ import {MatIcon} from '@angular/material/icon';
 import {NgForOf, NgIf} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
 import {EditBackgroundComponent} from '../edit-background/edit-background.component';
+import {FilterKanbanComponent} from '../filter-kanban/filter-kanban.component';
 
 @Component({
   selector: 'app-kanban-navbar',
@@ -27,6 +28,19 @@ export class KanbanNavbarComponent {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(EditBackgroundComponent, {
+      data: {} // Pass any data you need to the dialog here
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('The dialog was closed with result:', result);
+        // Handle the result here
+      }
+    });
+  }
+
+  openDialogFilter(): void {
+    const dialogRef = this.dialog.open(FilterKanbanComponent, {
       data: {} // Pass any data you need to the dialog here
     });
 
