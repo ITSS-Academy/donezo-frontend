@@ -1,0 +1,32 @@
+.filter-page {
+  width: 400px;
+  padding: 10px 25px;
+
+  .check {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 25px;
+      height: 25px;
+      border-radius: 50px;
+    }
+  }
+
+  p {
+    margin-bottom: 8px;
+  }
+}
+
+.members-list {
+  p {
+    margin-top: 5px;
+  }
+}
+
+::ng-deep.mdc-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
