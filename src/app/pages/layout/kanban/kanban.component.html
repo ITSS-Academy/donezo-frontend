@@ -40,9 +40,9 @@
           (cdkDropListDropped)="onCardDrop($event)"
           [cdkDropListData]="column.cards || []"
           [id]="indexToString($index)"
-          
+
           class="task-list"
-        >
+        >xx
           @for (task of column.cards; track $index) {
             <div class="task-box" cdkDrag>
               <div class="task-content" (click)="openDescriptionDialog(task)">
