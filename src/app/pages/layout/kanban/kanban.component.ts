@@ -12,7 +12,7 @@ import {BoardState} from '../../../ngrx/board/board.state';
 import {ListState} from '../../../ngrx/list/list.state';
 import {
   CdkDrag,
-  CdkDragDrop,
+  CdkDragDrop, CdkDragHandle,
   CdkDropList,
   CdkDropListGroup,
   moveItemInArray,
@@ -30,7 +30,7 @@ import {TaskDescriptionComponent} from './components/task-description/task-descr
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [ListTasksComponent, KanbanNavbarComponent, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup],
+  imports: [ListTasksComponent, KanbanNavbarComponent, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle],
   templateUrl: './kanban.component.html',
   styleUrl: './kanban.component.scss'
 })
@@ -330,8 +330,8 @@ export class KanbanComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteTask(column: any, task: any): void {
-    column.tasks = column.tasks.filter((t: any) => t !== task);
+  deleteTask(cardId: string): void {
+    this.store.dispatch(listActions.deleteCard({cardId: cardId}));
   }
 
 

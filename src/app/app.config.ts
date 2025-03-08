@@ -14,6 +14,8 @@ import {boardReducer} from './ngrx/board/board.reducer';
 import * as BoardEffects from './ngrx/board/board.effects';
 import * as ListEffects from './ngrx/list/list.effects';
 import {listReducer} from './ngrx/list/list.reducer';
+import {userReducer} from './ngrx/user/user.reducer';
+import * as UserEffects from './ngrx/user/user.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({eventCoalescing: true}), provideRouter(routes), provideAnimationsAsync(),
@@ -22,12 +24,14 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       auth: authReducer,
       board: boardReducer,
-      list: listReducer
+      list: listReducer,
+      user: userReducer
     }), provideEffects(
       [
         AuthEffects,
         BoardEffects,
-        ListEffects
+        ListEffects,
+        UserEffects
       ]
     ), provideFirebaseApp(() => initializeApp({
       "projectId": "todolist-246-25a",
