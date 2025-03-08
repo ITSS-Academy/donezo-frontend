@@ -1,0 +1,22 @@
+#top {
+  display: flex;
+  justify-content: space-between;
+
+  #create-tags {
+    display: flex;
+    button {
+      background-color: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-scrim);
+
+    }
+  }
+
+  #add-members {
+    display: flex;
+    button {
+      background-color: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-scrim);
+
+    }
+  }
+}

@@ -1,10 +1,7 @@
-#container {
-  height: fit-content;
-  display: flex;
+.container {
+  width: 100%;
 
-
-  #new-tag {
-    width: 100%;
+  #edit-tag {
     background-color: var(--md-sys-color-inverse-primary);
     border-radius: 25px;
 
@@ -34,7 +31,6 @@
       align-items: center;
 
       .example-form {
-        height: 10%;
         margin: 10px;
         background-color: var(--md-sys-color-on-primary);
         border-radius: 5px;
@@ -68,7 +64,6 @@
 
       button {
         margin: 10px;
-        width: 50%;
         background-color: var(--md-sys-color-primary);
         color: var(--md-sys-color-on-primary);
       }
