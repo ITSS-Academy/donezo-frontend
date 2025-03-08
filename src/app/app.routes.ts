@@ -11,6 +11,11 @@ export const routes: Routes = [
   },
   {
     path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     canActivate: [authGuard],
     loadChildren: () => import('./pages/layout/layout.routes').then(m => m.LayoutRoutes),
   },
