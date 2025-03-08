@@ -22,6 +22,7 @@
           (cdkDropListDropped)="onCardDrop($event)"
           [cdkDropListData]="column.cards || []"
           [id]="indexToString($index)"
+          
           class="task-list"
         >
           @for (task of column.cards; track $index) {
