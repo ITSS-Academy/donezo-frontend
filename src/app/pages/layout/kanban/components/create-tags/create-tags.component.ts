@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatFormField} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-import {NgStyle} from '@angular/common';
+import {NgStyle, NgFor, NgClass} from '@angular/common';
 import {MatButton} from '@angular/material/button';
+import {MaterialModule} from '../../../../../shared/modules/material.module';
+
 
 @Component({
   selector: 'app-create-tags',
@@ -11,29 +14,52 @@ import {MatButton} from '@angular/material/button';
   imports: [
     MatIcon,
     MatFormField,
-    MatLabel,
     MatInput,
     NgStyle,
-    MatButton
+    MatButton,
+    ReactiveFormsModule,
+    NgFor,
+    NgClass,
+    MaterialModule
   ],
   templateUrl: './create-tags.component.html',
   styleUrl: './create-tags.component.scss'
 })
 export class CreateTagsComponent {
- //new color array
+  // Mảng màu
   colorArray = [
-    {name: 'Red', color: '#FF0000'},
-    {name: 'Green', color: '#00FF00'},
-    {name: 'Blue', color: '#0000FF'},
-    {name: 'Yellow', color: '#FFFF00'},
-    {name: 'Orange', color: '#FFA500'},
-    {name: 'Purple', color: '#800080'},
-    {name: 'Pink', color: '#FFC0CB'},
-    {name: 'Brown', color: '#A52A2A'},
-    {name: 'White', color: '#FFFFFF'},
-    {name: 'Black', color: '#000000'},
-    {name: 'Gray', color: '#808080'},
-    {name: 'Cyan', color: '#00FFFF'},
-    {name: 'Magenta', color: '#FF00FF'},
+    {name: 'Deep Red', color: '#D40000'},
+    {name: 'Orange', color: '#F06A11'},
+    {name: 'Purple', color: '#9747FF'},
+    {name: 'Magenta', color: '#D3009B'},
+    {name: 'Yellow', color: '#D3CD19'},
+    {name: 'Teal', color: '#19C4B3'},
+    {name: 'Gray', color: '#AFAFAF'},
+    {name: 'Dark Purple', color: '#5D5791'},
+    {name: 'Lavender', color: '#A08CFF'},
+    {name: 'Dark Blue', color: '#004D96'},
+    {name: 'Pink', color: '#F235EB'},
+    {name: 'Lime Green', color: '#75D329'},
+    {name: 'Royal Blue', color: '#212CC9'},
+    {name: 'Violet', color: '#8E11E7'},
+    {name: 'Olive Green', color: '#79B41A'},
   ];
+
+
+  // Form Reactive
+  tagForm = new FormGroup({
+    tagName: new FormControl(''),
+    selectedColor: new FormControl('')
+  });
+
+  // Hàm chọn màu
+  selectColor(color: string) {
+    this.tagForm.patchValue({selectedColor: color});
+  }
+
+  // Hàm lưu tag
+  saveTag() {
+    console.log('Tag Name:', this.tagForm.value.tagName);
+    console.log('Selected Color:', this.tagForm.value.selectedColor);
+  }
 }
