@@ -4,12 +4,13 @@ export interface BoardModel {
   ownerId?: string;
   backgroundId?: string;
   background:
-    {
-      color?: string | null;
-      fileName?: string | null;
-      fileLocation?: string | null;
-    }
+    | {
+    color?: string | null;
+    fileName?: string | null;
+    fileLocation?: string | null;
+  }
     | File
     | null;
+
   createdAt?: Date | null;
 }

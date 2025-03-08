@@ -11,6 +11,8 @@ import * as boardActions from '../../ngrx/board/board.actions';
 import {Observable, Subscription} from 'rxjs';
 import {BoardModel} from '../../models/board.model';
 import {AsyncPipe} from '@angular/common';
+import {UserModel} from '../../models/user.model';
+import {UserState} from '../../ngrx/user/user.state';
 
 @Component({
   selector: 'app-sidebar',
@@ -26,16 +28,25 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   constructor(private drawerService: DrawerService,
               private store: Store<{
-                board: BoardState
+                board: BoardState,
+                user: UserState
               }>) {
     this.store.dispatch(boardActions.getBoards())
   }
 
   supcriptions: Subscription[] = [];
+  user!: UserModel
 
   ngOnInit() {
     this.boards$ = this.store.select('board', 'boards');
     console.log('Boards:', this.boards$);
+    this.supcriptions.push(
+      this.store.select('user', 'user').subscribe(user => {
+        if (user) {
+          this.user = user;
+        }
+      })
+    )
   }
 
   navLinks = [
@@ -97,4 +108,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.supcriptions.forEach((sub) => sub.unsubscribe());
     this.supcriptions = [];
   }
+
+  getBackgroundUrl(board: BoardModel): string {
+    if (!board.background) {
+      return ''; // Default empty if background is not set
+    }
+
+    if (typeof board.background === 'object' && 'fileLocation' in board.background) {
+      return board.background.fileLocation || '';
+    }
+
+    return board.background as string;
+  }
+
 }
