@@ -4,6 +4,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
 import {EditBackgroundComponent} from '../edit-background/edit-background.component';
 import {FilterKanbanComponent} from '../filter-kanban/filter-kanban.component';
+import {MembersComponent} from '../add-members/members.component';
 
 @Component({
   selector: 'app-kanban-navbar',
@@ -36,6 +37,13 @@ export class KanbanNavbarComponent {
         console.log('The dialog was closed with result:', result);
         // Handle the result here
       }
+    });
+  }
+
+  openMembersDialog(): void {
+    const dialogRef = this.dialog.open(MembersComponent, {
+      data: {},
+      width: 'fit-content'
     });
   }
 

@@ -10,30 +10,21 @@
   </div>
   <h5>My Board</h5>
   <div class="board-list">
-    <div class="board">
-      <p>Work</p>
-      <button mat-button [matMenuTriggerFor]="menu">
-        <mat-icon aria-hidden="false" aria-label="Example more_vert icon" fontIcon="more_vert"></mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>Fix</button>
-        <button mat-menu-item>Delete</button>
-      </mat-menu>
-    </div>
-    <div class="board">
-      <div class="personal">
-        <p>Personal</p>
-      </div>
-      <div class="icon">
+    @for (board of boards; track $index) {
+      <div class="board" [ngStyle]="{ 'background': 'url(' + getBackgroundUrl(board) + ')' }">
+        <p>{{ board.name }}</p>
+
         <button mat-button [matMenuTriggerFor]="menu">
-          <mat-icon aria-hidden="false" aria-label="Example more_vert icon" fontIcon="more_vert"></mat-icon>
+          <mat-icon aria-hidden="false" fontIcon="more_vert"></mat-icon>
         </button>
+
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>Fix</button>
-          <button mat-menu-item>Delete</button>
+          <button mat-menu-item (click)="deleteBoard(board.id!)">Delete</button>
         </mat-menu>
+
       </div>
-    </div>
+    }
+
   </div>
   <h5>Invited boards</h5>
   <div class="board-list">

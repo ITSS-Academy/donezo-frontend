@@ -33,9 +33,7 @@
   <mat-selection-list>
     @for (board of boards$ | async; track $index) {
       <mat-list-item [routerLink]="['/kanban', board.id]" routerLinkActive="active-link">
-        <img
-          src="{{ board.background }}"
-          alt="" class="background">
+        <img [src]="getBackgroundUrl(board)" alt="Board Background" class="background">
         <span>{{ board.name }}</span>
       </mat-list-item>
     }
@@ -55,11 +53,12 @@
 
 
   <div class="profile">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s"
-         alt="Profile">
-    <div class="info">
-      <p>Name</p>
-      <span>Workspace Account</span>
-    </div>
+    @if (user) {
+      <img [src]="user.photoUrl"
+           alt="Profile">
+      <div class="info">
+        <p>{{ user.name }}</p>
+      </div>
+    }
   </div>
 </div>

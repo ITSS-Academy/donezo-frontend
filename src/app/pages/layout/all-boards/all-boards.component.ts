@@ -7,7 +7,7 @@ import { MaterialModule } from '../../../shared/modules/material.module';
   standalone: true,
   imports: [
     CreateTagsComponent,
-    MaterialModule
+    MaterialModule,
   ],
   templateUrl: './all-boards.component.html',
   styleUrl: './all-boards.component.scss'

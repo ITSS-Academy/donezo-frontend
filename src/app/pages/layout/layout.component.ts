@@ -5,6 +5,9 @@ import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from "@angular/rout
 import {SearchComponent} from "../../components/search/search.component";
 import {SidebarComponent} from "../../components/sidebar/sidebar.component";
 import {KanbanNavbarComponent} from './kanban/components/kanban-navbar/kanban-navbar.component';
+import {Store} from '@ngrx/store';
+import {UserState} from '../../ngrx/user/user.state';
+import * as userActions from '../../ngrx/user/user.actions';
 
 @Component({
   selector: 'app-layout',
@@ -31,8 +34,12 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private store: Store<{
+      user: UserState
+    }>
   ) {
+    this.store.dispatch(userActions.getUser());
   }
 
   ngOnInit() {
