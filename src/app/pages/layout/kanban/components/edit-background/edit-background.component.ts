@@ -1,28 +1,35 @@
-import {Component, inject} from '@angular/core';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {Component} from '@angular/core';
+import {MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatIcon} from "@angular/material/icon";
+import {MatInput} from "@angular/material/input";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {Store} from '@ngrx/store';
-import {BoardState} from '../../ngrx/board/board.state';
-import * as boardActions from '../../ngrx/board/board.actions';
-import {MaterialModule} from '../../shared/modules/material.module';
+import {BoardState} from '../../../../../ngrx/board/board.state';
 import {MatDialogRef} from '@angular/material/dialog';
+import * as boardActions from '../../../../../ngrx/board/board.actions';
 
 @Component({
-  selector: 'app-create-board',
+  selector: 'app-edit-background',
   standalone: true,
   imports: [
-    MaterialModule,
+    MatButton,
+    MatFormField,
+    MatIcon,
+    MatInput,
+    MatLabel,
     ReactiveFormsModule
   ],
-  templateUrl: './create-board.component.html',
-  styleUrl: './create-board.component.scss'
+  templateUrl: './edit-background.component.html',
+  styleUrl: './edit-background.component.scss'
 })
-export class CreateBoardComponent {
+export class EditBackgroundComponent {
   newBoardImage: string = 'https://images.pexels.com/photos/1632780/pexels-photo-1632780.jpeg?auto=compress&cs=tinysrgb&w=600';
   file!: File;
   nameControl: FormControl = new FormControl('');
 
   constructor(private store: Store<{ board: BoardState }>,
-              public dialogRef: MatDialogRef<CreateBoardComponent>) {
+              public dialogRef: MatDialogRef<EditBackgroundComponent>) {
   }
 
   onFileChange(event: any): void {

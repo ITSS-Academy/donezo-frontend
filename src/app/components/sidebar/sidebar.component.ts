@@ -1,22 +1,42 @@
-import {Component, EventEmitter, inject, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, inject, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatSidenav} from "@angular/material/sidenav";
 import {MaterialModule} from "../../shared/modules/material.module";
 import {DrawerService} from "../../services/drawer.service";
-import {RouterLink} from '@angular/router';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateBoardComponent} from '../create-board/create-board.component';
+import {Store} from '@ngrx/store';
+import {BoardState} from '../../ngrx/board/board.state';
+import * as boardActions from '../../ngrx/board/board.actions';
+import {Observable, Subscription} from 'rxjs';
+import {BoardModel} from '../../models/board.model';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [MaterialModule, RouterLink],
+  imports: [MaterialModule, RouterLink, AsyncPipe, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, OnDestroy {
+  boards$!: Observable<BoardModel[] | null>;
+
   @Output() onToggleDrawer = new EventEmitter<string>();
 
-  constructor(private drawerService: DrawerService) {}
+  constructor(private drawerService: DrawerService,
+              private store: Store<{
+                board: BoardState
+              }>) {
+    this.store.dispatch(boardActions.getBoards())
+  }
+
+  supcriptions: Subscription[] = [];
+
+  ngOnInit() {
+    this.boards$ = this.store.select('board', 'boards');
+    console.log('Boards:', this.boards$);
+  }
 
   navLinks = [
     {
@@ -46,16 +66,7 @@ export class SidebarComponent {
     }
   ];
 
-  boards = [
-    {
-      name: 'Work',
-      background: 'https://t3.ftcdn.net/jpg/05/13/59/72/360_F_513597277_YYqrogAmgRR9ohwTUnOM784zS9eYUcSk.jpg',
-    },
-    {
-      name: 'Personal',
-      background: 'https://media.istockphoto.com/id/1285308242/photo/to-do-list-text-on-notepad.jpg?s=612x612&w=0&k=20&c=p85bCVQZwvkrqqqNOJGg2QuPDu6ynTlQHkASQOTELh8=',
-    },
-  ];
+  boards: BoardModel[] = [];
 
   invitedBoards = [
     {
@@ -64,16 +75,26 @@ export class SidebarComponent {
     },
   ];
 
-  toggleDrawer(drawerName:string) {
+  toggleDrawer(drawerName: string) {
     this.onToggleDrawer.emit(drawerName)
   }
+
   readonly dialog = inject(MatDialog);
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(CreateBoardComponent, {
+    const dialogRef = this.dialog.open(CreateBoardComponent, {
       width: '350px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  ngOnDestroy() {
+    this.supcriptions.forEach((sub) => sub.unsubscribe());
+    this.supcriptions = [];
   }
 }

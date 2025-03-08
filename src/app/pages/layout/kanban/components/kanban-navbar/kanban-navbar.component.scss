@@ -1,0 +1,101 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  width: 100%;
+  padding: 0 25px 0 20px;
+  background: var(--md-sys-color-on-primary);
+
+  p {
+    margin: 0;
+    font-size: 17px;
+  }
+
+  .left {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .background {
+      display: flex;
+      gap: 10px;
+      padding: 10px 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: #f1f1f1;
+        border-radius: 12px;
+      }
+    }
+
+    .filter {
+      display: flex;
+      gap: 10px;
+      padding: 10px 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: #f1f1f1;
+        border-radius: 12px;
+      }
+    }
+
+    .share {
+      display: flex;
+      gap: 10px;
+      background: var(--md-sys-color-on-primary-container);
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+    }
+  }
+}
+
+
+.task-members {
+  display: flex;
+  position: relative;
+
+  img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid white;
+    position: relative;
+    margin-left: -10px;
+    z-index: 1;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .more-members {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid white;
+    position: relative;
+    margin-left: -10px;
+    z-index: 1;
+    background-color: var(--md-sys-color-secondary-container);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+

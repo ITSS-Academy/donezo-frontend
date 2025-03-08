@@ -3,9 +3,7 @@ import {authGuard} from './guards/auth.guard';
 import {SignInComponent} from './pages/sign-in/sign-in.component';
 
 export const routes: Routes = [
-  {
-    path: '', redirectTo: 'home', pathMatch: 'full'
-  },
+
   {
     path: 'login',
     component: SignInComponent

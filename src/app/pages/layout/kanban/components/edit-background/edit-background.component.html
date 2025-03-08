@@ -1,7 +1,7 @@
 <div class="container">
   <div class="new-board">
     <div class="top">
-      <p>New Board</p>
+      <p>Edit Background</p>
       <img [src]="newBoardImage" alt="ảnh">
     </div>
 
@@ -33,18 +33,10 @@
       </div>
     </div>
     <div class="name">
-      <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <mat-label>Title</mat-label>
-          <div class="input">
-            <input matInput placeholder="Input" [formControl]="nameControl">
-            <mat-icon aria-hidden="false" aria-label="Example cancel icon" fontIcon="cancel"></mat-icon>
-          </div>
-        </mat-form-field>
-      </form>
       <button mat-flat-button (click)="createBoard()">Create</button>
     </div>
   </div>
 </div>
 
 <input type="file" style="display: none" #inputFile (change)="this.onFileChange($event)" accept="image/*">
+

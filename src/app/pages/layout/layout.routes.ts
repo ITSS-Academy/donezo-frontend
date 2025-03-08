@@ -3,6 +3,7 @@ import {HomeComponent} from './home/home.component';
 import {AllTasksComponent} from './all-tasks/all-tasks.component';
 import {AllBoardsComponent} from './all-boards/all-boards.component';
 import {LayoutComponent} from './layout.component';
+import {KanbanComponent} from './kanban/kanban.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -14,8 +15,8 @@ export const LayoutRoutes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'kanban',
-        loadChildren: () => import('./kanban/kanban.routes').then(m => m.KanbanRoutes)
+        path: 'kanban/:id',
+        component: KanbanComponent,
       },
       {
         path: 'allTasks',
