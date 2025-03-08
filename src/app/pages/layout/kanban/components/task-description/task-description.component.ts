@@ -1,6 +1,6 @@
 import {Component, inject, Inject} from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
+  MAT_DIALOG_DATA, MatDialog,
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
@@ -16,6 +16,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
+import {CreateTagsComponent} from '../create-tags/create-tags.component';
 
 @Component({
   selector: 'app-task-description',
@@ -28,7 +29,7 @@ export class TaskDescriptionComponent {
   data = inject(MAT_DIALOG_DATA);
   readonly dialogRef = inject(MatDialogRef<ListTasksComponent>);
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     console.log(this.data);
   }
 
@@ -48,6 +49,20 @@ export class TaskDescriptionComponent {
       console.log('Selected files:', files);
       // Xử lý file nếu cần, ví dụ: lưu vào mảng data.files
     };
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CreateTagsComponent, {
+      width: '300px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('The dialog was closed with result:', result);
+        // Handle the result here
+      }
+    });
   }
 
 }
