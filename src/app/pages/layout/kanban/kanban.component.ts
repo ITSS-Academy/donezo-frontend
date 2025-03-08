@@ -1,5 +1,7 @@
 import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ListTasksComponent} from "./components/list-tasks/list-tasks.component";
+import {MembersComponent} from './components/add-members/members.component';
+import {CreateTagsComponent} from './components/create-tags/create-tags.component';
 import {KanbanNavbarComponent} from './components/kanban-navbar/kanban-navbar.component';
 import {ActivatedRoute} from '@angular/router';
 import * as listActions from '../../../ngrx/list/list.actions';
@@ -42,6 +44,18 @@ export class KanbanComponent implements OnInit, OnDestroy {
   boardId!: string;
   isAddingList = false;
 
+
+  openTagsDialog(): void {
+    const dialogRef = this.dialog.open(CreateTagsComponent, {
+      data: {},
+      width: 'fit-content'
+    });
+  }
+
+
+  protected readonly MembersComponent = MembersComponent;
+  protected readonly CreateTagsComponent = CreateTagsComponent;
+
   cardName = new FormControl('', [Validators.required]);
   listName = new FormControl('', [Validators.required]);
 
@@ -55,7 +69,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
       board: BoardState;
       list: ListState;
     }>,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) {
   }
 
