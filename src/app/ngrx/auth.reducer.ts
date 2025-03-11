@@ -64,6 +64,7 @@ export const authReducer = createReducer(initialState,
     }
   }),
   on(authActions.storeAccessToken, (state, {accessToken}) => {
+    console.log(accessToken)
     return {
       ...state,
       idToken: accessToken

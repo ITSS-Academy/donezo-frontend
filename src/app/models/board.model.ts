@@ -11,5 +11,7 @@ export interface BoardModel {
   }
     | File
     | null;
+
   createdAt?: Date | null;
+  members?: string[] | null;
 }

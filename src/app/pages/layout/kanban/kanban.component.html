@@ -1,1 +1,117 @@
-<app-list-tasks></app-list-tasks>
+<!--<app-kanban-navbar></app-kanban-navbar>-->
+<!--<app-list-tasks></app-list-tasks>-->
+<div class="big">
+  <div
+    cdkDropList
+    cdkDropListGroup
+    cdkDropListOrientation="horizontal"
+    [cdkDropListData]="lists"
+    (cdkDropListDropped)="this.onColumnDrop($event)"
+    class="column-container"
+  >
+    @for (column of this.lists; track $index) {
+      <div class="column-box" cdkDrag>
+        <div class="column-header" cdkDragHandle>
+          <p>{{ column.title }}</p>
+          <button mat-stroked-button color="primary" (click)="openDialog(column.id)">
+            <mat-icon>add</mat-icon>
+            Add Task
+          </button>
+        </div>
+        <div
+          cdkDropList
+          cdkDropListGroup
+          (cdkDropListDropped)="onCardDrop($event)"
+          [cdkDropListData]="column.cards || []"
+          [id]="indexToString($index)"
+
+          class="task-list"
+        >
+          @for (task of column.cards; track $index) {
+            <div class="task-box" cdkDrag>
+              <div class="task-content" (click)="openDescriptionDialog(task.id)">
+                <p class="task-title"> {{ task.title }}</p>
+
+
+                <div class="task-tags">
+                  @for (tag of task.tags; track $index) {
+                    <span [ngStyle]="{'background-color': tag}" class="task-tag"></span>
+                  }
+
+                </div>
+                <div class="date">
+                  <p class="task-date"> {{ task.time }} </p>
+                </div>
+                <div class="member-meta">
+                  <div class="task-members">
+                    @if (task.members) {
+                      @for (member of task.members; track $index) {
+                        <img [src]="member" class="member-avatar"/>
+                      }
+                      @if (task.members.length > 2) {
+                        <span class="more-members">+{{ task.members.length - 2 }}</span>
+                      }
+                    }
+
+                  </div>
+
+                  <div class="task-meta">
+                    <div class="meta">
+                      @if (task.comments > 0) {
+                        <mat-icon>chat_bubble</mat-icon>
+                        {{ task.comments }}
+                      }
+                    </div>
+                    <div class="meta">
+                      @if (task.attachments > 0) {
+                        <mat-icon>attach_file</mat-icon>
+                        {{ task.attachments }}
+                      }
+                    </div>
+                    <div class="meta">
+                      @if (task.checklist) {
+                        <mat-icon>check_box</mat-icon>
+                        {{ task.checklist.completed }}/{{ task.checklist.total }}
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button mat-icon-button color="warn" class="delete-btn" (click)="deleteTask(task.id)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+    <div class="add-column">
+      @if (!isAddingList) {
+        <button mat-button color="black" (click)="isAddingList = true">
+          <mat-icon>add</mat-icon>
+          Add Column
+        </button>
+      } @else {
+        <div class="list-column add-list-column">
+          <div class="input-container">
+            <mat-form-field>
+              <mat-label>Column Name</mat-label>
+              <input #columnInput matInput (keyup.enter)="addNewList()" [formControl]="listName">
+            </mat-form-field>
+            <div class="btn-container">
+              <button mat-stroked-button (click)="cancelAddList()">Cancel</button>
+              <button mat-flat-button (click)="addNewList()">
+                <mat-icon>add</mat-icon>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+</div>
+
+
+

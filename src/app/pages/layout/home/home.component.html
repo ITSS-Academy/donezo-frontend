@@ -1,37 +1,39 @@
 <div class="container">
-  <h5>Templates</h5>
-  <div class="board-list">
-    <div class="board">
-      <p>House Work</p>
-    </div>
-    <div (click)="openDialog('0ms', '0ms')" class="create-board">
-      <p>Create New Board</p>
-    </div>
-  </div>
+  <!--  <h5>Templates</h5>-->
+  <!--  <div class="board-list">-->
+  <!--    <div class="board">-->
+  <!--      <p>House Work</p>-->
+  <!--    </div>-->
+  <!--    <div (click)="openDialog('0ms', '0ms')" class="create-board">-->
+  <!--      <p>Create New Board</p>-->
+  <!--    </div>-->
+  <!--  </div>-->
   <h5>My Board</h5>
   <div class="board-list">
-    <div class="board">
-      <p>Work</p>
-      <mat-icon aria-hidden="false" aria-label="Example more_vert icon" fontIcon="more_vert"></mat-icon>
-    </div>
-    <div class="board">
-      <p>Personal</p>
-      <button mat-button [matMenuTriggerFor]="menu">
-        <mat-icon aria-hidden="false" aria-label="Example more_vert icon" fontIcon="more_vert"></mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>Fix</button>
-        <button mat-menu-item>Delete</button>
-      </mat-menu>
-    </div>
+    @for (board of boards; track $index) {
+      <div class="board" [ngStyle]="{ 'background-image': 'url(' + getBackgroundUrl(board) + ')' }">
+        <div class="overlay"></div>
+
+        <p>{{ board.name }}</p>
+
+        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon"
+                [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="deleteBoard(board.id!)">Delete</button>
+        </mat-menu>
+
+      </div>
+    }
+
   </div>
   <h5>Invited boards</h5>
   <div class="board-list">
     <div class="board">
       <p>Trip To Japan</p>
-      <mat-icon aria-hidden="false" aria-label="Example more_vert icon" fontIcon="more_vert"></mat-icon>
     </div>
   </div>
-
 </div>
 

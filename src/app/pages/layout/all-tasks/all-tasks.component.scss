@@ -1,33 +1,117 @@
-table {
+p {
+  margin: 0;
+}
+
+.content {
   width: 100%;
-
+  height: calc(100vh - 56px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  gap: 8px;
 }
-body{
-  width: 100%;
-}
 
-tr:hover td {
-  background-color: var(--md-sys-color-on-primary-container);
-  color: var(--md-sys-color-inverse-surface);
-
-}
-.header  {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  padding: 0 16px;
+  width: 100%;
+}
 
-  h6 {
-    font-size: 15px;
-  }
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--md-sys-color-on-background);
+}
 
-  .dialog-filter{
-    display: flex;
-    cursor: pointer;
+.dialog-filter {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 4px;
+  color: var(--md-sys-color-on-background);
+}
 
-    p {
-      margin-left: 5px;
-    }
+.table {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  //padding: 10px 10px;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: space-between;
+  //box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 }
 
+.mat-mdc-table {
+  width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  color: var(--md-sys-color-on-background);
+
+  background-color: var(--md-sys-color-on-primary);
+  //border-radius: 8px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  height: 100%;
+  box-shadow: none;
+}
+
+.mat-column-name {
+  height: 100px;
+}
+
+.mat-header-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-size: 16px;
+
+}
+
+.member-hover {
+  cursor: pointer;
+  user-select: none;
+}
+
+.board-hover {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+
+
+}
+
+.material-symbols-outlined {
+  display: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--md-sys-color-on-background);
+}
+
+mat-row:hover {
+  background-color: var(--md-sys-color-on-primary-container);
+  color: var(--md-sys-color-inverse-surface);
+  cursor: pointer;
+}
+
+
+mat-paginator {
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+::ng-deep.mat-mdc-paginator {
+  background-color: var(--md-sys-color-on-primary) !important;
+}

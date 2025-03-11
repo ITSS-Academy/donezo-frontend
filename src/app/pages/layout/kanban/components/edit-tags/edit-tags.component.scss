@@ -1,80 +1,5 @@
-#container {
-  width: 30%;
-  height: fit-content;
-  display: flex;
-
-
-  #new-tag {
-    margin-right: 30px;
-    background-color: var(--md-sys-color-inverse-primary);
-    border-radius: 25px;
-
-    #main {
-      padding: 5%;
-      background-color: var(--md-sys-color-primary);
-      color: var(--md-sys-color-on-primary);
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-radius: 25px 25px 0 0;
-
-      mat-icon {
-        cursor: pointer;
-      }
-
-      p {
-        margin: 0;
-        padding-left: 10px;
-      }
-    }
-
-    #body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .example-form {
-        height: 10%;
-        margin: 10px;
-        background-color: var(--md-sys-color-on-primary);
-        border-radius: 5px;
-
-        p {
-          margin: 0;
-        }
-      }
-
-      .color-container{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-
-        .line {
-          padding: 10px 20px;
-          display: flex;
-          flex-wrap: wrap;
-          max-width: 230px;
-          height: fit-content;
-          gap: 10px ;
-        }
-
-        .color {
-          width: 30px;
-          height: 30px;
-          border-radius: 100%;
-          cursor: pointer;
-        }
-      }
-
-      button {
-        margin: 10px;
-        width: 50%;
-        background-color: var(--md-sys-color-primary);
-        color: var(--md-sys-color-on-primary);
-      }
-    }
-  }
+.container {
+  width: 100%;
 
   #edit-tag {
     background-color: var(--md-sys-color-inverse-primary);
@@ -138,9 +63,9 @@
       }
 
       button {
-          margin: 10px;
-          background-color: var(--md-sys-color-primary);
-          color: var(--md-sys-color-on-primary);
+        margin: 10px;
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
       }
     }
   }

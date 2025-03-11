@@ -1,8 +1,8 @@
 export interface CardModel {
   id: string | null,
   title: string;
-  description: string;
-  dueDate: Date;
+  description: string | null;
+  dueDate: Date | null;
   labels: any[] | null;
   members: any[] | null;
   checklistItems: any[] | null;

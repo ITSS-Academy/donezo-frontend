@@ -1,8 +1,12 @@
+import {LabelModel} from './label.model';
+import {ChecklistItemModel} from './checklistItem.model';
+
 export interface ListModel {
   id: string | null;
   title: string;
   createdAt: Date | null;
   cards: any[] | null;
+  boardId?: string | null;
 }
 
 export interface ListCard {
@@ -10,9 +14,10 @@ export interface ListCard {
   title: string;
   description?: string;
   dueDate?: Date;
-  labels?: any[];
+  labels?: LabelModel[];
   members?: any[];
-  checklistCount?: number;
+  checklistItems?: ChecklistItemModel[];
   commentsCount?: number;
   attachmentsCount?: number;
 }
+

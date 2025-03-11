@@ -1,24 +1,26 @@
-  <div class="sidebar">
-  <div class="logo">
-    <mat-icon class="material-symbols-outlined" >assignment</mat-icon> Taskly
+<div class="sidebar">
+  <div class="logo" routerLink="home">
+    <img src="/assets/images/logo-donezo.png" alt="">
+    Donezo
   </div>
 
-  <button (click)="openDialog('0ms', '0ms')" class="btn-create" mat-flat-button>
+  <button (click)="openBoardDialog('0ms', '0ms')" class="btn-create" mat-flat-button>
     <mat-icon fontIcon="add"></mat-icon>
     Create
   </button>
   <mat-selection-list>
     @for (page of navLinks; track $index) {
       @if (page.name == 'Notifications' || page.name == 'Search') {
-        <mat-list-item (click)="toggleDrawer(page.name)" >
+        <mat-list-item (click)="toggleDrawer(page.name)" routerLinkActive="active-link">
           <mat-icon [fontIcon]="page.icon" class="icon"></mat-icon>
           {{ page.name }}
         </mat-list-item>
 
       } @else {
-        <mat-list-item (click)="toggleDrawer(page.name)" [routerLink]="page.route" >
+        <mat-list-item (click)="toggleDrawer(page.name)" [routerLink]="page.route" routerLinkActive="active-link">
           <mat-icon [fontIcon]="page.icon" class="icon"></mat-icon>
-          {{ page.name }}</mat-list-item
+          {{ page.name }}
+        </mat-list-item
         >
       }
 
@@ -29,34 +31,48 @@
   </p>
 
   <mat-selection-list>
-    @for (board of boards; track $index) {
-      <mat-list-item [routerLink]="['/kanban']">
-        <img
-          src="{{ board.background }}"
-          alt="" class="background">
-        <span>{{ board.name }}</span>
-      </mat-list-item>
+    @if (boards$ | async; as boards) {
+      @for (board of boards.slice(0, 2); track $index) {
+        <mat-list-item [routerLink]="['/kanban', board.id]" routerLinkActive="active-link">
+          <img [src]="getBackgroundUrl(board)" alt="Board Background" class="background">
+          <span>{{ board.name }}</span>
+        </mat-list-item>
+      }
+
+      @if (boards.length > 2) {
+        <p class="see-more-btn" (click)="navigateToHome()">See more...</p>
+      }
     }
   </mat-selection-list>
 
   <p class="section-title">Invited boards</p>
   <mat-selection-list>
-    @for (board of invitedBoards; track $index) {
-      <mat-list-item [routerLink]="['kanban']">
-        <img
-          src="{{ board.background }}"
-          alt="" class="background">
-        <span>{{ board.name }}</span>
-      </mat-list-item>
+    @if (boards$ | async; as boards) {
+      @for (board of boards.slice(0, 2); track $index) {
+        <mat-list-item [routerLink]="['/kanban', board.id]" routerLinkActive="active-link">
+          <img [src]="getBackgroundUrl(board)" alt="Board Background" class="background">
+          <span>{{ board.name }}</span>
+        </mat-list-item>
+      }
+
+      @if (boards.length > 2) {
+        <p class="see-more-btn" (click)="navigateToHome()">See more...</p>
+      }
     }
   </mat-selection-list>
 
 
   <div class="profile">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s" alt="Profile">
-    <div class="info">
-      <p>Name</p>
-      <span>Workspace Account</span>
-    </div>
+    @if (user) {
+      <img [src]="user.photoUrl"
+           alt="Profile">
+      <div class="info">
+        <p>{{ user.name }}</p>
+      </div>
+    }
+    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon"
+            (click)="openLogoutDialog('0ms', '0ms')">
+      <mat-icon>logout</mat-icon>
+    </button>
   </div>
 </div>

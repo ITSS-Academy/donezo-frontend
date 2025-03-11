@@ -1,0 +1,31 @@
+<div class="container2">
+  <div class="new-tag">
+    <div class="main">
+      <mat-icon aria-hidden="false" fontIcon="keyboard_return"></mat-icon>
+      <p>New Tags</p>
+    </div>
+    <div class="body">
+      <form [formGroup]="tagForm" class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Tag Name</mat-label>
+          <input matInput formControlName="tagName">
+        </mat-form-field>
+      </form>
+
+      <div class="color-container">
+        <div class="line">
+          <div *ngFor="let color of colorArray"
+               class="color"
+               [ngClass]="{'selected': color.color === tagForm.value.selectedColor}"
+               [ngStyle]="{ backgroundColor: color.color }"
+               (click)="selectColor(color.color)">
+          </div>
+        </div>
+      </div>
+      <div class="btn">
+        <button mat-stroked-button (click)="cancel()">Cancel</button>
+        <button mat-flat-button (click)="saveTag()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

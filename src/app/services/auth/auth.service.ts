@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Auth, GoogleAuthProvider, signInWithPopup} from '@angular/fire/auth';
-import {from} from 'rxjs';
+import {Auth, GoogleAuthProvider, signInWithPopup, signOut} from '@angular/fire/auth';
+import {catchError, from, of} from 'rxjs';
 
 
 @Injectable({
@@ -10,7 +10,8 @@ import {from} from 'rxjs';
 export class AuthService {
 
   constructor(private httpClient: HttpClient,
-              private auth: Auth) {
+              private auth: Auth,
+  ) {
   }
 
 
@@ -29,5 +30,13 @@ export class AuthService {
         'Authorization': accessToken
       }
     });
+  }
+
+  logout() {
+    return from(signOut(this.auth)).pipe(
+      catchError((error) => {
+        return of(error);
+      }),
+    );
   }
 }

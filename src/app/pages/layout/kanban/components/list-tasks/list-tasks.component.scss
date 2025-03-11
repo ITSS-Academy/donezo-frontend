@@ -2,7 +2,6 @@
 .column-container {
   display: flex;
   gap: 15px;
-  padding: 20px;
 }
 
 .column-box {
@@ -24,7 +23,7 @@
 .task-box {
   display: flex;
   justify-content: space-between;
-  background: unset;
+  background: #F5F5F5;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -111,12 +110,17 @@
 }
 
 .add-column {
-  margin-top: 20px;
   font-size: 15px;
 
   button {
-    width: 136px;
-    height: 48px;
+    width: 280px;
+  }
+
+  button {
+    width: 250px;
+    height: 40px;
+    box-shadow: none;
+    background: #F5F5F5;
   }
 }
 
@@ -181,4 +185,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+::ng-deep.mat-primary.mat-mdc-button-base {
+  box-shadow: none;
+
 }

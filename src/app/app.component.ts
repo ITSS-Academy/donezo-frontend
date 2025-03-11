@@ -24,20 +24,22 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,
               private auth: Auth,
               private store: Store<{ auth: AuthState }>) {
-  }
-
-  ngOnInit() {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         console.log(user)
         const accessToken = await user.getIdToken();
-        this.router.navigate(['/home']);
+        console.log(accessToken)
         this.store.dispatch(authActions.storeAccessToken({accessToken: accessToken}));
       } else {
+        this.router.navigate(['/login']);
         console.log('User is signed out');
       }
     })
   }
 
-  
+  ngOnInit() {
+
+  }
+
+
 }
