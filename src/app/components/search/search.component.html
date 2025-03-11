@@ -4,7 +4,7 @@
   <form class="example-form">
     <mat-form-field class="example-full-width">
       <div id="search-text">
-        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <input type="text"  matInput [formControl]="myControl" [matAutocomplete]="auto">
         <mat-icon matPrefix>search</mat-icon>
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
           @for (option of filteredOptions | async; track option) {

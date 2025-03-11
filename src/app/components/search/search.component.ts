@@ -6,8 +6,6 @@ import {MaterialModule} from '../../shared/modules/material.module';
 import {map, Observable, startWith} from 'rxjs';
 import {UserModel} from '../../models/user.model';
 import {Store} from '@ngrx/store';
-import {UserState} from '../../ngrx/user/user.state';
-import {getUserById} from '../../ngrx/user/user.actions';
 import {AsyncPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {user} from '@angular/fire/auth';
