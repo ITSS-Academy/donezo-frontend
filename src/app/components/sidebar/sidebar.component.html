@@ -4,7 +4,7 @@
     Donezo
   </div>
 
-  <button (click)="openDialog('0ms', '0ms')" class="btn-create" mat-flat-button>
+  <button (click)="openBoardDialog('0ms', '0ms')" class="btn-create" mat-flat-button>
     <mat-icon fontIcon="add"></mat-icon>
     Create
   </button>
@@ -70,5 +70,9 @@
         <p>{{ user.name }}</p>
       </div>
     }
+    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon"
+            (click)="openLogoutDialog('0ms', '0ms')">
+      <mat-icon>logout</mat-icon>
+    </button>
   </div>
 </div>

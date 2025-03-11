@@ -13,6 +13,7 @@ import {BoardModel} from '../../models/board.model';
 import {AsyncPipe} from '@angular/common';
 import {UserModel} from '../../models/user.model';
 import {UserState} from '../../ngrx/user/user.state';
+import {LogoutComponent} from './logout/logout.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -86,10 +87,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.onToggleDrawer.emit(drawerName)
   }
 
-  readonly dialog = inject(MatDialog);
+  readonly boardDialog = inject(MatDialog);
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    const dialogRef = this.dialog.open(CreateBoardComponent, {
+  openBoardDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.boardDialog.open(CreateBoardComponent, {
       width: '350px',
       enterAnimationDuration,
       exitAnimationDuration,
@@ -97,6 +98,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  readonly logoutDialog = inject(MatDialog);
+
+  openLogoutDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.logoutDialog.open(LogoutComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
     });
   }
 
