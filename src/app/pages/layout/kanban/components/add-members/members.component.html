@@ -1,23 +1,29 @@
 <div class="container">
   <div id="title">
     <h4>Invite to workspace</h4>
-    <mat-icon>close</mat-icon>
+    <mat-icon (click)="cancel()">close</mat-icon>
   </div>
 
 
   <div id="body">
-    <form class="example-form">
+    <div class="example-form">
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Email address or name">
+        <input matInput (input)="onUserNameChange()" [(ngModel)]="this.userName" placeholder="Email address or name">
       </mat-form-field>
 
       <button mat-flat-button>
         <mat-icon>share</mat-icon>
         Share
       </button>
-    </form>
+    </div>
   </div>
-
-  <p>Invite someone to this Workspace using a link.</p>
-
+  @if (searchUser){
+  <div id="search-result">
+      <img class="avatar" [src]="searchUser.photoUrl" alt="" matListItemIcon>
+      <div class="user-info">
+        <p class="user-name">{{ searchUser.name }}</p>
+        <span class="user-email">{{ searchUser.email }}</span>
+      </div>
+  </div>
+  }
 </div>

@@ -54,18 +54,6 @@ export class FilterKanbanComponent {
       createdAt: new Date(),
     }
   ];
-  checklistItems: ChecklistItemModel[] = [
-    {
-      id: '1',
-      title: 'Task 1',
-    },
-    {
-      id: '2',
-      title: 'Task 2',
-    },
-    {
-      id: '3',
-      title: 'Task 3',
-    }
-  ];
+  checklistItems: ChecklistItemModel[] = []
+
 }

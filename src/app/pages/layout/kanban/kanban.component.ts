@@ -28,11 +28,15 @@ import {MatDialog} from '@angular/material/dialog';
 import {TaskComponent} from './components/list-tasks/components/task/task.component';
 import {NgStyle} from '@angular/common';
 import {TaskDescriptionComponent} from './components/task-description/task-description.component';
+import {MaterialModule} from '../../../shared/modules/material.module';
+import * as boardActions from '../../../ngrx/board/board.actions';
+import {LabelState} from '../../../ngrx/label/label.state';
+import {LabelComponent} from './components/label/label.component';
 
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [ListTasksComponent, KanbanNavbarComponent, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle],
+  imports: [ListTasksComponent, KanbanNavbarComponent,MaterialModule, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle],
   templateUrl: './kanban.component.html',
   styleUrl: './kanban.component.scss'
 })
@@ -68,6 +72,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
     private store: Store<{
       board: BoardState;
       list: ListState;
+      label: LabelState
     }>,
     public dialog: MatDialog,
   ) {
@@ -82,14 +87,25 @@ export class KanbanComponent implements OnInit, OnDestroy {
         this.subscriptions = [];
         this.store.dispatch(listActions.clearListStore());
         this.store.dispatch(listActions.getLists({boardId: newBoardId}))
+        this.store.dispatch(boardActions.getBoard({boardId: newBoardId}));
 
       }),
 
+      this.store.select('board', 'board').subscribe((board) => {
+        if (board) {
+          this.boardId = board.id!;
+        }
+      }),
 
       this.store.select('list', 'lists').subscribe((lists) => {
         console.log(lists);
         this.lists = lists;
       }),
+      this.store.select('label','isGetLabelsInBoardSuccess').subscribe((isSuccess) => {
+        if (isSuccess) {
+          this.dialog.open(LabelComponent);
+        }
+      })
     )
     this.board$ = this.store.select('board', 'board');
 
@@ -156,12 +172,17 @@ export class KanbanComponent implements OnInit, OnDestroy {
   }
 
   onCardDrop(event: CdkDragDrop<any[], any>) {
-    console.log(event);
-    console.log('888888888888888888888888888888888888888888888888')
-
     //get list Index
     const previousIndex = parseInt(event.previousContainer.id);
     const currentIndex = parseInt(event.container.id);
+    this.store.dispatch(
+      listActions.updateCard({
+        cardId: this.lists[previousIndex].cards![event.previousIndex].id!,
+        listId: this.lists[currentIndex]!.id!,
+        cardPosition: Number(event.currentIndex),
+        previousListId: this.lists[previousIndex].id!,
+      }),
+    );
 
     console.log(
       this.lists[previousIndex].cards![event.previousIndex].id,
@@ -169,19 +190,11 @@ export class KanbanComponent implements OnInit, OnDestroy {
       Number(event.currentIndex),
     );
 
-    this.store.dispatch(
-      listActions.updateCard({
-        cardId: this.lists[previousIndex].cards![event.previousIndex].id!,
-        listId: this.lists[currentIndex]!.id!,
-        cardPosition: Number(event.currentIndex),
-      }),
-    );
-
     if (event.previousContainer === event.container) {
       if (this.lists && this.lists[previousIndex].cards) {
         console.log(this.lists[previousIndex]);
         const updatedColumns = [
-          ...this.lists[previousIndex].cards.map((card: any) => ({...card})),
+          ...this.lists[previousIndex].cards.map((card: any) => ({ ...card })),
         ];
         moveItemInArray(
           updatedColumns,
@@ -190,18 +203,18 @@ export class KanbanComponent implements OnInit, OnDestroy {
         );
         this.lists = this.lists.map((col, index) => {
           if (index === previousIndex) {
-            return {...col, cards: [...updatedColumns]};
+            return { ...col, cards: [...updatedColumns] };
           }
           return col;
         });
       }
     } else {
       const previousContainer = [
-        ...event.previousContainer.data.map((item: any) => ({...item})),
+        ...event.previousContainer.data.map((item: any) => ({ ...item })),
       ];
       console.log(event.container!.data);
       const container = [
-        ...event.container!.data!.map((item: any) => ({...item})),
+        ...event.container!.data!.map((item: any) => ({ ...item })),
       ];
       transferArrayItem(
         previousContainer,
@@ -212,10 +225,10 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
       this.lists = this.lists.map((col, index) => {
         if (index === previousIndex) {
-          return {...col, cards: [...previousContainer]};
+          return { ...col, cards: [...previousContainer] };
         }
         if (index === currentIndex) {
-          return {...col, cards: [...container]};
+          return { ...col, cards: [...container] };
         }
         return col;
       });

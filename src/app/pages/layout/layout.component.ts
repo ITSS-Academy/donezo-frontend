@@ -43,6 +43,8 @@ export class LayoutComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showKanbanNavbar = this.router.url.startsWith('/kanban');
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showKanbanNavbar = this.router.url.startsWith('/kanban');

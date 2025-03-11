@@ -26,6 +26,7 @@ export class UserService {
   }
 
   search(email: string) {
+    console.log('searching for user with email: ', email);
     return this.httpClient.get(
       `${environment.apiUrl}/user/search?email=${email}`,
       {
