@@ -56,11 +56,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       icon: 'home',
     },
     {
-      name: 'All boards',
-      route: '/allBoards',
-      icon: 'all_inbox',
-    },
-    {
       name: 'All tasks',
       route: '/allTasks',
       icon: 'assignment',

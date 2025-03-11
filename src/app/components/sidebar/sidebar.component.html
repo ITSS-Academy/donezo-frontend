@@ -11,13 +11,13 @@
   <mat-selection-list>
     @for (page of navLinks; track $index) {
       @if (page.name == 'Notifications' || page.name == 'Search') {
-        <mat-list-item (click)="toggleDrawer(page.name)">
+        <mat-list-item (click)="toggleDrawer(page.name)" routerLinkActive="active-link">
           <mat-icon [fontIcon]="page.icon" class="icon"></mat-icon>
           {{ page.name }}
         </mat-list-item>
 
       } @else {
-        <mat-list-item (click)="toggleDrawer(page.name)" [routerLink]="page.route">
+        <mat-list-item (click)="toggleDrawer(page.name)" [routerLink]="page.route" routerLinkActive="active-link">
           <mat-icon [fontIcon]="page.icon" class="icon"></mat-icon>
           {{ page.name }}
         </mat-list-item
