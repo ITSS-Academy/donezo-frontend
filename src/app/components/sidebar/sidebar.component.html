@@ -1,6 +1,6 @@
 <div class="sidebar">
-  <div class="logo">
-    <mat-icon class="material-symbols-outlined">assignment</mat-icon>
+  <div class="logo" routerLink="home">
+    <img src="/assets/images/logo-donezo.png" alt="">
     Donezo
   </div>
 
@@ -31,23 +31,33 @@
   </p>
 
   <mat-selection-list>
-    @for (board of boards$ | async; track $index) {
-      <mat-list-item [routerLink]="['/kanban', board.id]" routerLinkActive="active-link">
-        <img [src]="getBackgroundUrl(board)" alt="Board Background" class="background">
-        <span>{{ board.name }}</span>
-      </mat-list-item>
+    @if (boards$ | async; as boards) {
+      @for (board of boards.slice(0, 2); track $index) {
+        <mat-list-item [routerLink]="['/kanban', board.id]" routerLinkActive="active-link">
+          <img [src]="getBackgroundUrl(board)" alt="Board Background" class="background">
+          <span>{{ board.name }}</span>
+        </mat-list-item>
+      }
+
+      @if (boards.length > 2) {
+        <p class="see-more-btn" (click)="navigateToHome()">See more...</p>
+      }
     }
   </mat-selection-list>
 
   <p class="section-title">Invited boards</p>
   <mat-selection-list>
-    @for (board of invitedBoards; track $index) {
-      <mat-list-item [routerLink]="['kanban']">
-        <img
-          src="{{ board.background }}"
-          alt="" class="background">
-        <span>{{ board.name }}</span>
-      </mat-list-item>
+    @if (boards$ | async; as boards) {
+      @for (board of boards.slice(0, 2); track $index) {
+        <mat-list-item [routerLink]="['/kanban', board.id]" routerLinkActive="active-link">
+          <img [src]="getBackgroundUrl(board)" alt="Board Background" class="background">
+          <span>{{ board.name }}</span>
+        </mat-list-item>
+      }
+
+      @if (boards.length > 2) {
+        <p class="see-more-btn" (click)="navigateToHome()">See more...</p>
+      }
     }
   </mat-selection-list>
 

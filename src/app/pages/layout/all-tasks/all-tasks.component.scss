@@ -111,3 +111,7 @@ mat-paginator {
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
 }
+
+::ng-deep.mat-mdc-paginator {
+  background-color: var(--md-sys-color-on-primary) !important;
+}

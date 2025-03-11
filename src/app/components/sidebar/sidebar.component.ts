@@ -2,7 +2,7 @@ import {Component, EventEmitter, inject, OnDestroy, OnInit, Output, ViewChild} f
 import {MatSidenav} from "@angular/material/sidenav";
 import {MaterialModule} from "../../shared/modules/material.module";
 import {DrawerService} from "../../services/drawer.service";
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateBoardComponent} from '../create-board/create-board.component';
 import {Store} from '@ngrx/store';
@@ -27,6 +27,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   @Output() onToggleDrawer = new EventEmitter<string>();
 
   constructor(private drawerService: DrawerService,
+              private router: Router,
               private store: Store<{
                 board: BoardState,
                 user: UserState
@@ -97,6 +98,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  navigateToHome() {
+    this.router.navigate(['/home']);
   }
 
   ngOnDestroy() {
