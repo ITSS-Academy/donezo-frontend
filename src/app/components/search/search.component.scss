@@ -36,3 +36,14 @@
 ::ng-deep.mat-mdc-text-field-wrapper {
   padding: 0 !important;
 }
+.option-item  {
+  display: flex;
+  align-items: center;
+  Cursor: pointer;
+}
+
+.option-icon {
+  border-radius: 5px;
+  width:30px;
+  height:27px;
+}
