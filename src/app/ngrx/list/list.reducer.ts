@@ -1,6 +1,8 @@
 import {ListState} from './list.state';
 import {createReducer, on} from '@ngrx/store';
 import * as listActions from './list.actions';
+import {ChecklistItemModel} from '../../models/checklistItem.model';
+import {subtractCommentCount} from './list.actions';
 
 const initialState: ListState = {
   lists: [],
@@ -136,7 +138,7 @@ export const listReducer = createReducer(
   }),
 
   on(listActions.updateCard, (state, {type}) => {
-    console.log(type)
+    console.log(type);
     return {
       ...state,
       isUpdatingCard: true,
@@ -144,28 +146,65 @@ export const listReducer = createReducer(
       updateCardError: '',
     };
   }),
-  on(listActions.updateCardSuccess, (state, {type, cards, listId, cardId}) => {
-    console.log(cards);
-    console.log(type)
+  on(
+    listActions.updateCardSuccess,
+    (state, {type, cards, listId, cardId, previousListId, cardPosition}) => {
+      console.log(cards);
+      console.log(type);
+      const list = state.lists.find((l) => l.id === previousListId);
+      let card: any;
+      if (list) {
+        card = list.cards!.find((c) => c.id === cardId);
+      }
+      console.log(card);
 
-    return {
-      ...state,
-      lists: state.lists.map((list) => {
-        if (list.id === listId) {
-          return {...list, cards};
-        } else {
-          return {
-            ...list,
-            cards: list.cards
-              ? list.cards.filter((card) => card.id !== cardId)
-              : [],
-          };
-        }
-      }),
-      isUpdatingCardSuccess: true,
-      isUpdatingCard: false,
-    };
-  }),
+      if (previousListId != listId) {
+        return {
+          ...state,
+          lists: state.lists.map((list) => {
+            if (list.id === previousListId) {
+              return {
+                ...list,
+                cards: list.cards
+                  ? list.cards.filter((card) => card.id !== cardId)
+                  : [],
+              };
+            }
+            if (list.id === listId) {
+              return {
+                ...list,
+                cards: list.cards
+                  ? [
+                    ...list.cards.slice(0, cardPosition),
+                    card,
+                    ...list.cards.slice(cardPosition),
+                  ]
+                  : [card],
+              };
+            }
+            return list;
+          }),
+          isUpdatingCardSuccess: true,
+          isUpdatingCard: false,
+        };
+      } else {
+        return {
+          ...state,
+          lists: state.lists.map((list) => {
+            if (list.id === listId) {
+              return {
+                ...list,
+                cards: cards,
+              };
+            }
+            return list;
+          }),
+          isUpdatingCardSuccess: true,
+          isUpdatingCard: false,
+        };
+      }
+    },
+  ),
   on(listActions.updateCardFailure, (state, {error, type}) => {
     console.log(error);
     console.log(type);
@@ -314,21 +353,201 @@ export const listReducer = createReducer(
         if (list.id === card.listId) {
           return {
             ...list,
-            cards: list.cards ? list.cards.map((c) => {
-              if (c.id === card.id) {
-                return {
-                  ...c,
-                  title: card.title,
-                  description: card.description,
-                  dueDate: card.dueDate,
-                };
-              }
-              return c;
-            }) : [],
+            cards: list.cards
+              ? list.cards.map((c) => {
+                if (c.id === card.id) {
+                  return {
+                    ...c,
+                    title: card.title,
+                    description: card.description,
+                    dueDate: card.dueDate,
+                  };
+                }
+                return c;
+              })
+              : [],
           };
         }
         return list;
       }),
     };
   }),
+  on(listActions.addCSubtaskToCard, (state, {subtask}) => {
+    console.log(subtask);
+    return {
+      ...state,
+      lists: state.lists.map((list) => {
+        return {
+          ...list,
+          cards: list.cards
+            ? list.cards.map((card) => {
+              if (card.id === subtask.cardId) {
+                return {
+                  ...card,
+                  checklistItems: card.checklistItems
+                    ? card.checklistItems.concat(subtask)
+                    : [subtask],
+                };
+              }
+              return card;
+            })
+            : [],
+        };
+      }),
+    };
+  }),
+  on(listActions.toogleChecklistItem, (state, {checklistItem}) => {
+    return {
+      ...state,
+      lists: state.lists.map((list) => {
+        return {
+          ...list,
+          cards: list.cards
+            ? list.cards.map((card) => {
+              return {
+                ...card,
+                checklistItems: card.checklistItems
+                  ? card.checklistItems.map((item: ChecklistItemModel) => {
+                    if (item.id === checklistItem.id) {
+                      return checklistItem;
+                    }
+                    return item;
+                  })
+                  : [],
+              };
+            })
+            : [],
+        };
+      }),
+    };
+  }),
+  on(listActions.deleteChecklistItem, (state, {checklistItemId}) => {
+    return {
+      ...state,
+      lists: state.lists.map((list) => {
+        return {
+          ...list,
+          cards: list.cards
+            ? list.cards.map((card) => {
+              return {
+                ...card,
+                checklistItems: card.checklistItems
+                  ? card.checklistItems.filter(
+                    (item: ChecklistItemModel) =>
+                      item.id !== checklistItemId,
+                  )
+                  : [],
+              };
+            })
+            : [],
+        };
+      }),
+    };
+  }),
+  on(listActions.startUpdateCard, (state) => {
+    return {
+      ...state,
+      isUpdatingCard: true,
+      isUpdatingCardSuccess: false,
+    };
+  }),
+  on(listActions.resetUpdatingCardSuccess, (state, {type}) => {
+    console.log(type);
+    return {
+      ...state,
+      isUpdatingCardSuccess: false,
+    };
+  }),
+  on(listActions.addNewMemberToCard, (state, {cardId, user}) => {
+    return {
+      ...state,
+      lists: state.lists.map((list) => {
+        return {
+          ...list,
+          cards: list.cards
+            ? list.cards.map((card) => {
+              if (card.id === cardId) {
+                return {
+                  ...card,
+                  members: card.members ? card.members.concat(user) : [user],
+                };
+              }
+              return card;
+            })
+            : [],
+        };
+      }),
+    };
+  }),
+  on(listActions.removeMemberFromCard, (state, {cardId, userId}) => {
+    return {
+      ...state,
+      lists: state.lists.map((list) => {
+        return {
+          ...list,
+          cards: list.cards
+            ? list.cards.map((card) => {
+              if (card.id === cardId) {
+                return {
+                  ...card,
+                  members: card.members
+                    ? card.members.filter(
+                      (member: any) => member.id !== userId,
+                    )
+                    : [],
+                };
+              }
+              return card;
+            })
+            : [],
+        };
+      }),
+    };
+  }),
+  on(listActions.addCommentCount, (state, {cardId}) => {
+    return {
+      ...state,
+      lists: state.lists.map((list) => {
+        return {
+          ...list,
+          cards: list.cards
+            ? list.cards.map((card) => {
+              if (card.id === cardId) {
+                return {
+                  ...card,
+                  commentsCount: card.commentsCount
+                    ? card.commentsCount + 1
+                    : 1,
+                };
+              }
+              return card;
+            })
+            : [],
+        };
+      }),
+    }
+  }),
+  on(listActions.subtractCommentCount, (state, {cardId}) => {
+    return {
+      ...state,
+      lists: state.lists.map((list) => {
+        return {
+          ...list,
+          cards: list.cards
+            ? list.cards.map((card) => {
+              if (card.id === cardId) {
+                return {
+                  ...card,
+                  commentsCount: card.commentsCount
+                    ? card.commentsCount - 1
+                    : 0,
+                };
+              }
+              return card;
+            })
+            : [],
+        };
+      }),
+    };
+  })
 );

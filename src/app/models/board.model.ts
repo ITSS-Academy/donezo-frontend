@@ -13,4 +13,5 @@ export interface BoardModel {
     | null;
 
   createdAt?: Date | null;
+  members?: string[] | null;
 }

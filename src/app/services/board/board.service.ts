@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Store} from '@ngrx/store';
-import {BoardState} from '../../ngrx/board/board.state';
-import {AuthState} from '../../ngrx/auth.state';
-import {Observable} from 'rxjs';
 import {BoardModel} from '../../models/board.model';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment.development';
+import {AuthState} from '../../ngrx/auth.state';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BoardService {
   accessToken!: string;
@@ -58,5 +57,28 @@ export class BoardService {
         headers: {Authorization: this.accessToken},
       },
     );
+  }
+
+  changeBackground(background: {
+    backgroundId?: string,
+    boardId: string
+  }, file?: File): Observable<any> {
+    if (file) {
+      const formData = new FormData();
+      formData.append('background', file);
+      formData.append('boardId', background.boardId);
+      return this.httpClient.put(`${environment.apiUrl}/background/upload`, formData, {
+        headers: {Authorization: this.accessToken},
+      });
+    } else {
+      return this.httpClient.put(`${environment.apiUrl}/background/upload`, background, {
+        headers: {Authorization: this.accessToken},
+      })
+    }
+  }
+  searchBoards(search: string) {
+    return this.httpClient.post(`${environment.apiUrl}/board/search`, {search}, {
+      headers: {Authorization: this.accessToken},
+    });
   }
 }

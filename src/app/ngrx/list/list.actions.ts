@@ -1,5 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {ListCard, ListModel} from '../../models/list.model';
+import {ChecklistItemModel} from '../../models/checklistItem.model';
+import {UserModel} from '../../models/user.model';
 
 export const addNewList = createAction(
   '[List] Add New List',
@@ -51,11 +53,18 @@ export const updateCard = createAction(
     cardId: string;
     listId: string;
     cardPosition: number;
+    previousListId: string;
   }>(),
 );
 export const updateCardSuccess = createAction(
   '[Card] Update Card Success',
-  props<{ cards: ListCard[]; listId: string; cardId: string }>(),
+  props<{
+    cards: ListCard[];
+    listId: string;
+    cardId: string;
+    previousListId: string;
+    cardPosition: number;
+  }>(),
 );
 export const updateCardFailure = createAction(
   '[Card] Update Card Failure',
@@ -105,6 +114,17 @@ export const deleteCardFailure = createAction(
   props<{ error: string }>(),
 );
 
+export const addNewMemberToCard = createAction(
+  '[List] Add New Member To Card',
+  props<{ cardId: string; user: UserModel }>(),
+);
+
+export const removeMemberFromCard = createAction(
+  '[List] Remove Member From Card',
+  props<{ cardId: string; userId: string }>(),
+);
+
+///
 export const updateLabelToCard = createAction(
   '[Card] Update Label To Card',
   props<{ cardId: string; labels: ListModel[] }>(),
@@ -115,14 +135,40 @@ export const updateNewCard = createAction(
   props<{ card: any }>(),
 );
 
-// export const addCountSubtask = createAction(
-//   '[Card] Add Count Subtask',
-//   props<{ subtask: ChecklistItemModel }>(),
-// );
+export const addCSubtaskToCard = createAction(
+  '[Card] Add Subtask To Card',
+  props<{ subtask: ChecklistItemModel }>(),
+);
+
+export const toogleChecklistItem = createAction(
+  '[List] Toggle Checklist Item In List',
+  props<{ checklistItem: ChecklistItemModel }>(),
+);
+
+export const deleteChecklistItem = createAction(
+  '[List] Delete Checklist Item In List',
+  props<{ checklistItemId: string }>(),
+);
+
+export const startUpdateCard = createAction('[Card] Start Update Card');
+
+export const resetUpdatingCardSuccess = createAction(
+  '[List] Reset Updating Card Success',
+);
 
 export const storeNewLists = createAction(
   '[List] Store New Lists',
   props<{ lists: ListModel[] }>(),
+);
+
+export const addCommentCount = createAction(
+  '[List] Add Comment Count',
+  props<{ cardId: string }>(),
+);
+
+export const subtractCommentCount = createAction(
+  '[List] Subtract Comment Count',
+  props<{ cardId: string }>(),
 );
 
 export const clearListStore = createAction('[List] Clear List Store');

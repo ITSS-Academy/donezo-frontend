@@ -47,6 +47,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.showKanbanNavbar = this.router.url.startsWith('/kanban');
 
     this.subscriptions.push(
       this.router.events.subscribe((event) => {
@@ -59,6 +60,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+
+    
   }
 
   toggleDrawer(drawerName: string) {

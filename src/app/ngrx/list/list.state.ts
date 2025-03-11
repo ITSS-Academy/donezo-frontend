@@ -1,5 +1,5 @@
-import {LabelModel} from '../../models/label.model';
-import {ListModel} from '../../models/list.model';
+import { LabelModel } from '../../models/label.model';
+import { ListModel } from '../../models/list.model';
 
 export interface ListState {
   lists: ListModel[];
