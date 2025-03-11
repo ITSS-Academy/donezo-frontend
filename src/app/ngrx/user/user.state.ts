@@ -5,7 +5,7 @@ export interface UserState {
 
   isGettingUser: boolean
   isGettingUserSuccess: boolean
-  getUserError: string
+   getUserError: string
 
   searchUsers: UserModel[]
   isSearchingUsers: boolean
