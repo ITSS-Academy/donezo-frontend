@@ -26,28 +26,31 @@
 .column-container {
   display: flex;
   gap: 15px;
+  padding: 20px 30px;
+  height: 100%;
+  overflow-x: auto;
 }
 
 .column-box {
   width: 280px;
-  background: #f5f5f5;
-  padding: 10px;
+  min-width: 280px;
+  background-color: var(--md-sys-color-on-primary);
+  padding: 12px;
   border-radius: 8px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  height: fit-content;
 }
 
 .task-list {
-  min-height: 120px;
-  height: 100%;
+  min-height: 12px;
   background: unset;
-  padding: 10px;
   border-radius: 8px;
 }
 
 .task-box {
   display: flex;
   justify-content: space-between;
-  background: #F5F5F5;
+  background-color: var(--md-sys-color-on-primary);
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -129,15 +132,20 @@
 
 .big {
   display: flex;
-  flex-direction: row;
-  margin-top: 70px;
+  flex-direction: column;
+  height: 100%;
+  //background-image: url("../../../../../public/assets/images/backgrounds/0452-suoi-nuoc-nong-khoa-than-giua-rung-tuyet-150434.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .add-column {
   font-size: 15px;
+  width: 280px;
 
   button {
     box-shadow: none;
+    width: 280px;
   }
 }
 
@@ -212,7 +220,7 @@
 .add-list-column {
   background-color: rgba(255, 255, 255, 0.9);
   align-items: center;
-  width: 100%;
+  width: 280px;
 
   .add-list-button {
     display: flex;
@@ -220,7 +228,6 @@
     justify-content: center;
     padding: 12px 16px;
     color: #757575;
-    width: 100%;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
