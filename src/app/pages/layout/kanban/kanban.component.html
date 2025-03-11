@@ -1,6 +1,7 @@
 <!--<app-kanban-navbar></app-kanban-navbar>-->
 <!--<app-list-tasks></app-list-tasks>-->
 <div class="big">
+  <app-kanban-navbar></app-kanban-navbar>
   <div
     cdkDropList
     cdkDropListGroup
@@ -13,7 +14,7 @@
       <div class="column-box" cdkDrag>
         <div class="column-header" cdkDragHandle>
           <p>{{ column.title }}</p>
-          <button mat-stroked-button color="primary" (click)="openDialog(column.id)">
+          <button mat-button color="primary" (click)="openDialog(column.id)">
             <mat-icon>add</mat-icon>
             Add Task
           </button>
@@ -87,7 +88,7 @@
     }
     <div class="add-column">
       @if (!isAddingList) {
-        <button mat-button color="black" (click)="isAddingList = true">
+        <button mat-stroked-button (click)="isAddingList = true" class="add-list-button">
           <mat-icon>add</mat-icon>
           Add Column
         </button>
