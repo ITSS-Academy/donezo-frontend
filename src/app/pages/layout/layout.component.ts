@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDrawer, MatDrawerContainer, MatDrawerContent} from "@angular/material/sidenav";
 import {NotificationsComponent} from "../../components/notifications/notifications.component";
 import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from "@angular/router";
@@ -8,6 +8,8 @@ import {KanbanNavbarComponent} from './kanban/components/kanban-navbar/kanban-na
 import {Store} from '@ngrx/store';
 import {UserState} from '../../ngrx/user/user.state';
 import * as userActions from '../../ngrx/user/user.actions';
+import {Subscription} from 'rxjs';
+import {AuthState} from '../../ngrx/auth.state';
 
 @Component({
   selector: 'app-layout',
@@ -25,18 +27,20 @@ import * as userActions from '../../ngrx/user/user.actions';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer!: MatDrawer;
 
   isDrawerOpen = false;
   activeDrawer: string | null = null;
   showKanbanNavbar = false;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private store: Store<{
-      user: UserState
+      user: UserState,
+      auth: AuthState
     }>
   ) {
     this.store.dispatch(userActions.getUser());
@@ -45,11 +49,19 @@ export class LayoutComponent implements OnInit {
   ngOnInit() {
     this.showKanbanNavbar = this.router.url.startsWith('/kanban');
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.showKanbanNavbar = this.router.url.startsWith('/kanban');
-      }
-    });
+    this.subscriptions.push(
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.showKanbanNavbar = this.router.url.startsWith('/kanban');
+        }
+      }),
+    )
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+
+    
   }
 
   toggleDrawer(drawerName: string) {

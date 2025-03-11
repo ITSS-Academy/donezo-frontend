@@ -21,7 +21,7 @@ import {
   transferArrayItem
 } from '@angular/cdk/drag-drop';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {MatFormField} from '@angular/material/form-field';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {MatInput} from '@angular/material/input';
 import {MatDialog} from '@angular/material/dialog';
@@ -36,7 +36,7 @@ import {LabelComponent} from './components/label/label.component';
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [ListTasksComponent, KanbanNavbarComponent,MaterialModule, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle],
+  imports: [ListTasksComponent, KanbanNavbarComponent, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle, MatLabel],
   templateUrl: './kanban.component.html',
   styleUrl: './kanban.component.scss'
 })
@@ -281,6 +281,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
   }
 
   cancelAddList() {
+    this.listName.reset();
     this.isAddingList = false;
   }
 

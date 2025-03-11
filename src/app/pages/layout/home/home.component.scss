@@ -2,37 +2,58 @@ p {
   margin: 0;
 }
 
+h5 {
+  margin: 0;
+}
+
 .container {
   width: 100%;
   height: 100%;
-
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
 
   .board-list {
     display: flex;
     width: 100%;
-    height: 129px;
-    margin: 20px 30px 20px 0;
-
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
 
     .board {
+      position: relative;
       display: flex;
       justify-content: space-between;
       background-image: url("https://images.pexels.com/photos/1480807/pexels-photo-1480807.jpeg?auto=compress&cs=tinysrgb&w=600");
       width: 22%;
-      height: 100%;
+      height: 130px;
       border-radius: 10px;
-      margin-right: 50px;
       cursor: pointer;
       padding: 10px 0 0 10px;
       color: var(--md-sys-color-on-primary);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+      }
 
       p {
         margin: 7px;
+        z-index: 999;
       }
 
       mat-icon {
         color: var(--md-sys-color-on-primary);
-
+        margin: 0;
       }
 
       .icon {
@@ -51,4 +72,5 @@ p {
       cursor: pointer;
     }
   }
+
 }
