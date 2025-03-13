@@ -18,7 +18,8 @@
         <p>{{ board.name }}</p>
 
         <button mat-icon-button aria-label="Example icon button with a vertical three dot icon"
-                [matMenuTriggerFor]="menu">
+                [matMenuTriggerFor]="menu"
+                (click)="$event.stopPropagation()">
           <mat-icon>more_vert</mat-icon>
         </button>
 
@@ -29,13 +30,6 @@
       </div>
     }
 
-  </div>
-  <h5>Invited boards</h5>
-  <div class="board-list">
-    <div class="board">
-      <div class="overlay"></div>
-      <p>Trip To Japan</p>
-    </div>
   </div>
 </div>
 

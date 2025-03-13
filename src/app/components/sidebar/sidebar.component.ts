@@ -63,11 +63,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       icon: 'assignment',
     },
     {
-      name: 'Notifications',
-      route: '/notifications',
-      icon: 'notifications',
-    },
-    {
       name: 'Search',
       route: '/search',
       icon: 'search',

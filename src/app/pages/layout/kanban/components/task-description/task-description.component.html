@@ -19,36 +19,36 @@
         <!-- Title -->
         <form [formGroup]="taskUpdatedForm">
           <!-- Assignee -->
-          <div class="form-group">
-            <label>Assignee</label>
-            <div class="assignees-container">
-              @for (assignee of this.task.members || []; track $index) {
-                <div class="assignee-chip">
-                  <div class="assignee-avatar">
-                    <mat-icon>account_circle</mat-icon>
-                  </div>
-                  <span class="assignee-name">{{ assignee.name }}</span>
-                  <button mat-icon-button class="remove-assignee-button" (click)="removeAssignee(assignee.id)">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </div>
-              }
-              <button mat-stroked-button class="add-assignee-button" (click)="showAssigneeSelector = true"
-                      [matMenuTriggerFor]="menu">
-                <mat-icon>add</mat-icon>
-                Add
-              </button>
-              <mat-menu #menu="matMenu">
-                @for (member of this.boardMembers; track $index) {
-                  <button mat-menu-item class="assignee-button" (click)="addNewMemberToCard(member.id)">
-                    <img src="{{member.photoUrl}}" alt="">
-                    <span class="assignee-name">{{ member.name }}</span>
-                  </button>
-                }
-              </mat-menu>
+          <!--          <div class="form-group">-->
+          <!--            <label>Assignee</label>-->
+          <!--            <div class="assignees-container">-->
+          <!--              @for (assignee of this.task.members || []; track $index) {-->
+          <!--                <div class="assignee-chip">-->
+          <!--                  <div class="assignee-avatar">-->
+          <!--                    <mat-icon>account_circle</mat-icon>-->
+          <!--                  </div>-->
+          <!--                  <span class="assignee-name">{{ assignee.name }}</span>-->
+          <!--                  <button mat-icon-button class="remove-assignee-button" (click)="removeAssignee(assignee.id)">-->
+          <!--                    <mat-icon>close</mat-icon>-->
+          <!--                  </button>-->
+          <!--                </div>-->
+          <!--              }-->
+          <!--              <button mat-stroked-button class="add-assignee-button" (click)="showAssigneeSelector = true"-->
+          <!--                      [matMenuTriggerFor]="menu">-->
+          <!--                <mat-icon>add</mat-icon>-->
+          <!--                Add-->
+          <!--              </button>-->
+          <!--              <mat-menu #menu="matMenu">-->
+          <!--                @for (member of this.boardMembers; track $index) {-->
+          <!--                  <button mat-menu-item class="assignee-button" (click)="addNewMemberToCard(member.id)">-->
+          <!--                    <img src="{{member.photoUrl}}" alt="">-->
+          <!--                    <span class="assignee-name">{{ member.name }}</span>-->
+          <!--                  </button>-->
+          <!--                }-->
+          <!--              </mat-menu>-->
 
-            </div>
-          </div>
+          <!--            </div>-->
+          <!--          </div>-->
 
           <div class="form-group">
             <mat-form-field appearance="outline" class="full-width">
@@ -147,69 +147,69 @@
 
 
         <!-- Comments Section -->
-        <div class="form-group">
-          <label>Comments</label>
+        <!--        <div class="form-group">-->
+        <!--          <label>Comments</label>-->
 
-          <!-- Comments List -->
-          <div class="comments-list">
-            @for (comment of this.comments; track comment.id) {
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-user">
-                    <div class="user-avatar">
-                      <img src="{{ (comment.userId! | user | async)?.photoUrl}}"
-                           alt="">
-                    </div>
-                    <span class="user-name">{{ (comment.userId! | user | async)?.name }}</span>
-                  </div>
-                  <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
-                </div>
-                <div class="comment-content">
-                  {{ comment.text }}
-                </div>
-                <div class="comment-actions">
-                  <!--                  <button mat-button class="comment-action-btn">Reply</button>-->
-                  <!--                  <button mat-button class="comment-action-btn" *ngIf="isCurrentUserAuthor(comment)">Edit</button>-->
-                  <button mat-button class="comment-action-btn" *ngIf="isCurrentUserAuthor(comment)"
-                          (click)="deleteComment(comment.id!)">Delete
-                  </button>
-                </div>
-              </div>
-            }
-          </div>
+        <!--          &lt;!&ndash; Comments List &ndash;&gt;-->
+        <!--          <div class="comments-list">-->
+        <!--            @for (comment of this.comments; track comment.id) {-->
+        <!--              <div class="comment-item">-->
+        <!--                <div class="comment-header">-->
+        <!--                  <div class="comment-user">-->
+        <!--                    <div class="user-avatar">-->
+        <!--                      <img src="{{ (comment.userId! | user | async)?.photoUrl}}"-->
+        <!--                           alt="">-->
+        <!--                    </div>-->
+        <!--                    <span class="user-name">{{ (comment.userId! | user | async)?.name }}</span>-->
+        <!--                  </div>-->
+        <!--                  <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>-->
+        <!--                </div>-->
+        <!--                <div class="comment-content">-->
+        <!--                  {{ comment.text }}-->
+        <!--                </div>-->
+        <!--                <div class="comment-actions">-->
+        <!--                  &lt;!&ndash;                  <button mat-button class="comment-action-btn">Reply</button>&ndash;&gt;-->
+        <!--                  &lt;!&ndash;                  <button mat-button class="comment-action-btn" *ngIf="isCurrentUserAuthor(comment)">Edit</button>&ndash;&gt;-->
+        <!--                  <button mat-button class="comment-action-btn" *ngIf="isCurrentUserAuthor(comment)"-->
+        <!--                          (click)="deleteComment(comment.id!)">Delete-->
+        <!--                  </button>-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            }-->
+        <!--          </div>-->
 
-          <!-- Add Comment -->
-          <div class="add-comment-container">
-            <div class="comment-input-wrapper">
-              <div class="user-avatar">
-                <img src="{{ (this.currentUser | user | async)?.photoUrl}}"
-                     alt="">
-              </div>
-              <div class="comment-field-container">
-                <mat-form-field appearance="outline" class="full-width">
-                  <textarea
-                    matInput
-                    [(ngModel)]="newComment"
-                    placeholder="Add your comment..."
-                    #autosize="cdkTextareaAutosize"
-                    [cdkTextareaAutosize]="false"
-                    cdkAutosizeMinRows="1"
-                    cdkAutosizeMaxRows="5"
-                    (keydown)="handleCommentKeydown($event)"></textarea>
-                  <div class="send-button-wrapper">
-                    <button
-                      mat-icon-button
-                      class="send-button"
-                      [disabled]="!newComment.trim()"
-                      (click)="addComment()">
-                      <mat-icon>send</mat-icon>
-                    </button>
-                  </div>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!--          &lt;!&ndash; Add Comment &ndash;&gt;-->
+        <!--          <div class="add-comment-container">-->
+        <!--            <div class="comment-input-wrapper">-->
+        <!--              <div class="user-avatar">-->
+        <!--                <img src="{{ (this.currentUser | user | async)?.photoUrl}}"-->
+        <!--                     alt="">-->
+        <!--              </div>-->
+        <!--              <div class="comment-field-container">-->
+        <!--                <mat-form-field appearance="outline" class="full-width">-->
+        <!--                  <textarea-->
+        <!--                    matInput-->
+        <!--                    [(ngModel)]="newComment"-->
+        <!--                    placeholder="Add your comment..."-->
+        <!--                    #autosize="cdkTextareaAutosize"-->
+        <!--                    [cdkTextareaAutosize]="false"-->
+        <!--                    cdkAutosizeMinRows="1"-->
+        <!--                    cdkAutosizeMaxRows="5"-->
+        <!--                    (keydown)="handleCommentKeydown($event)"></textarea>-->
+        <!--                  <div class="send-button-wrapper">-->
+        <!--                    <button-->
+        <!--                      mat-icon-button-->
+        <!--                      class="send-button"-->
+        <!--                      [disabled]="!newComment.trim()"-->
+        <!--                      (click)="addComment()">-->
+        <!--                      <mat-icon>send</mat-icon>-->
+        <!--                    </button>-->
+        <!--                  </div>-->
+        <!--                </mat-form-field>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
       </div>
 
       <div class="task-description-footer">

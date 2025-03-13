@@ -43,40 +43,40 @@
                 <div class="date">
                   <p class="task-date"> {{ task.time }} </p>
                 </div>
-                <div class="member-meta">
-                  <div class="task-members">
-                    @if (task.members) {
-                      @for (member of task.members; track $index) {
-                        <img [src]="member" class="member-avatar"/>
-                      }
-                      @if (task.members.length > 2) {
-                        <span class="more-members">+{{ task.members.length - 2 }}</span>
-                      }
-                    }
+                <!--                <div class="member-meta">-->
+                <!--                  <div class="task-members">-->
+                <!--                    @if (task.members) {-->
+                <!--                      @for (member of task.members; track $index) {-->
+                <!--                        <img [src]="member" class="member-avatar"/>-->
+                <!--                      }-->
+                <!--                      @if (task.members.length > 2) {-->
+                <!--                        <span class="more-members">+{{ task.members.length - 2 }}</span>-->
+                <!--                      }-->
+                <!--                    }-->
 
-                  </div>
+                <!--                  </div>-->
 
-                  <div class="task-meta">
-                    <div class="meta">
-                      @if (task.comments > 0) {
-                        <mat-icon>chat_bubble</mat-icon>
-                        {{ task.comments }}
-                      }
-                    </div>
-                    <div class="meta">
-                      @if (task.attachments > 0) {
-                        <mat-icon>attach_file</mat-icon>
-                        {{ task.attachments }}
-                      }
-                    </div>
-                    <div class="meta">
-                      @if (task.checklist) {
-                        <mat-icon>check_box</mat-icon>
-                        {{ task.checklist.completed }}/{{ task.checklist.total }}
-                      }
-                    </div>
-                  </div>
-                </div>
+                <!--                  <div class="task-meta">-->
+                <!--                    <div class="meta">-->
+                <!--                      @if (task.comments > 0) {-->
+                <!--                        <mat-icon>chat_bubble</mat-icon>-->
+                <!--                        {{ task.comments }}-->
+                <!--                      }-->
+                <!--                    </div>-->
+                <!--                    <div class="meta">-->
+                <!--                      @if (task.attachments > 0) {-->
+                <!--                        <mat-icon>attach_file</mat-icon>-->
+                <!--                        {{ task.attachments }}-->
+                <!--                      }-->
+                <!--                    </div>-->
+                <!--                    <div class="meta">-->
+                <!--                      @if (task.checklist) {-->
+                <!--                        <mat-icon>check_box</mat-icon>-->
+                <!--                        {{ task.checklist.completed }}/{{ task.checklist.total }}-->
+                <!--                      }-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
               </div>
               <button mat-icon-button color="warn" class="delete-btn" (click)="deleteTask(task.id)">
                 <mat-icon>close</mat-icon>
@@ -88,10 +88,12 @@
     }
     <div class="add-column">
       @if (!isAddingList) {
-        <button mat-stroked-button (click)="isAddingList = true" class="add-list-button">
-          <mat-icon>add</mat-icon>
-          Add Column
-        </button>
+        <div class="column-box">
+          <button mat-stroked-button (click)="isAddingList = true" class="add-list-button">
+            <mat-icon>add</mat-icon>
+            Add Column
+          </button>
+        </div>
       } @else {
         <div class="list-column add-list-column">
           <div class="input-container">

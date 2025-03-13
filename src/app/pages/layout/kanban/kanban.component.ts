@@ -98,10 +98,10 @@ export class KanbanComponent implements OnInit, OnDestroy {
       }),
 
       this.store.select('list', 'lists').subscribe((lists) => {
-        console.log(lists);
+        console.log('list', lists);
         this.lists = lists;
       }),
-      this.store.select('label','isGetLabelsInBoardSuccess').subscribe((isSuccess) => {
+      this.store.select('label', 'isGetLabelsInBoardSuccess').subscribe((isSuccess) => {
         if (isSuccess) {
           this.dialog.open(LabelComponent);
         }
@@ -194,7 +194,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
       if (this.lists && this.lists[previousIndex].cards) {
         console.log(this.lists[previousIndex]);
         const updatedColumns = [
-          ...this.lists[previousIndex].cards.map((card: any) => ({ ...card })),
+          ...this.lists[previousIndex].cards.map((card: any) => ({...card})),
         ];
         moveItemInArray(
           updatedColumns,
@@ -203,18 +203,18 @@ export class KanbanComponent implements OnInit, OnDestroy {
         );
         this.lists = this.lists.map((col, index) => {
           if (index === previousIndex) {
-            return { ...col, cards: [...updatedColumns] };
+            return {...col, cards: [...updatedColumns]};
           }
           return col;
         });
       }
     } else {
       const previousContainer = [
-        ...event.previousContainer.data.map((item: any) => ({ ...item })),
+        ...event.previousContainer.data.map((item: any) => ({...item})),
       ];
       console.log(event.container!.data);
       const container = [
-        ...event.container!.data!.map((item: any) => ({ ...item })),
+        ...event.container!.data!.map((item: any) => ({...item})),
       ];
       transferArrayItem(
         previousContainer,
@@ -225,10 +225,10 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
       this.lists = this.lists.map((col, index) => {
         if (index === previousIndex) {
-          return { ...col, cards: [...previousContainer] };
+          return {...col, cards: [...previousContainer]};
         }
         if (index === currentIndex) {
-          return { ...col, cards: [...container] };
+          return {...col, cards: [...container]};
         }
         return col;
       });
