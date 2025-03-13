@@ -245,11 +245,16 @@ mat-form-field {
   margin-top: 10px;
 }
 
-::ng-deep.mat-mdc-outlined-button:not(:disabled) {
-  height: 25px;
-  width: 80px;
-}
+//::ng-deep.mat-mdc-outlined-button:not(:disabled) {
+//  height: 25px;
+//  width: 80px;
+//}
 
 ::ng-deep.mdc-dialog--open {
   width: fit-content;
+}
+
+::ng-deep.mat-mdc-dialog-panel{
+  display: flex;
+  justify-content: center;
 }

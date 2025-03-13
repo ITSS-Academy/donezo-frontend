@@ -1,124 +1,222 @@
-<div style="min-width: 500px; max-width: 500px">
-  <h2 mat-dialog-title>{{ data.title }}</h2>
-  <mat-dialog-content>
-
-    <div class="task-members">
-      @for (member of data.members; track $index) {
-        <img [src]="member" class="member-avatar" />
-      }
-      <button mat-stroked-button class="add-assignee">
-        <mat-icon>add</mat-icon>
-        Add
-      </button>
-    </div>
-    <div class="info">
-      <div class="info-left">
-        <p>Tags</p>
-        <div class="task-tags">
-          @for (tag of data.tags; track $index) {
-            <span [ngStyle]="{'background-color': tag}" class="task-tag">Tuong</span>
-          }
+@if (!(this.isGettingCard | async)) {
+  <div class="task-description-overlay" (click)="onClose()">
+    <div class="task-description-container" (click)="$event.stopPropagation()">
+      <div class="task-description-header">
+        <h2>Task description</h2>
+        <div class="header-buttons">
+          <!--        <button mat-stroked-button class="create-label-button" (click)="createLabel()">-->
+          <!--          <mat-icon>add</mat-icon>-->
+          <!--          Create Label-->
+          <!--        </button>-->
+          <button mat-icon-button class="close-button" (click)="onClose()">
+            <mat-icon>close</mat-icon>
+          </button>
         </div>
       </div>
-      <div class="info-right">
-        <p class="date-name">Date</p>
-        <div class="date">
-          <p class="task-date"> {{ data.time }} </p>
-        </div>
-      </div>
-    </div>
-    <div class="menu">
-      <mat-icon>menu</mat-icon>
-      <p>Description</p>
-    </div>
-    <textarea [(ngModel)]="data.description" rows="5" cols="20"></textarea>
-    <div class="btn">
-      <button mat-flat-button (click)="openDialog()">
-        <mat-icon>tag</mat-icon>
-        Tags
-      </button>
-      <button mat-flat-button (click)="openFileDialog()">
-        <mat-icon>folder</mat-icon>
-        File
-      </button>
-      <button mat-flat-button>
-        <mat-icon>today</mat-icon>
-        Dueday
-      </button>
-    </div>
 
-    <div class="form-group">
-      <div class="checklist-header">
-        <label>Checklist</label>
-        <div class="subtasks-counter">{{ this.completedItems || 0 }}/{{ this.totalItems || 0 }}</div>
-      </div>
+      <div class="task-description-content">
 
-      <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
-      </mat-progress-bar>
-
-      <!-- Subtasks List -->
-      <div class="subtasks-list">
-        @for (subtask of checkListItems; track $index) {
-          <div class="subtask-item">
-            <mat-checkbox [checked]="subtask.isCompleted">
-              {{ subtask.title }}
-            </mat-checkbox>
-            <button mat-icon-button class="remove-subtask-button">
-              <mat-icon>close</mat-icon>
-            </button>
+        <!-- Title -->
+        <form [formGroup]="taskUpdatedForm">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Title</mat-label>
+              <input matInput formControlName="title" #titleInput>
+            </mat-form-field>
           </div>
-        }
 
-        <!-- Add New Subtask -->
-        <form [formGroup]="subTaskForm">
-          <div class="add-subtask-container">
-            <mat-checkbox formControlName="isCompleted"></mat-checkbox>
-            <input matInput formControlName="title" class="subtask-input" placeholder="Add a new subtask">
-            <button mat-icon-button>
-              <mat-icon>add</mat-icon>
-            </button>
+          <!-- Notes -->
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Notes</mat-label>
+              <textarea matInput placeholder="Insert your notes here..."
+                        formControlName="description"></textarea>
+            </mat-form-field>
+          </div>
+
+          <!-- Assignee -->
+          <div class="form-group">
+            <label>Assignee</label>
+            <div class="assignees-container">
+              @for (assignee of this.task.members || []; track $index) {
+                <div class="assignee-chip">
+                  <div class="assignee-avatar">
+                    <mat-icon>account_circle</mat-icon>
+                  </div>
+                  <span class="assignee-name">{{ assignee.name }}</span>
+                  <button mat-icon-button class="remove-assignee-button" (click)="removeAssignee(assignee.id)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              }
+              <button mat-stroked-button class="add-assignee-button" (click)="showAssigneeSelector = true"
+                      [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                Add
+              </button>
+              <mat-menu #menu="matMenu">
+                @for (member of this.boardMembers; track $index) {
+                  <button mat-menu-item class="assignee-button" (click)="addNewMemberToCard(member.id)">
+                    <img src="{{member.photoUrl}}" alt="">
+                    <span class="assignee-name">{{ member.name }}</span>
+                  </button>
+                }
+              </mat-menu>
+
+            </div>
+          </div>
+
+          <div class="tag-date-container">
+            <div class="tag-container">
+              <div class="tag-header">
+                <label>Tags</label>
+              </div>
+              <!-- Tags and Labels Buttons in the same row -->
+              <div class="form-group tags-labels-row">
+                @for (label of this.task.labels || []; track $index) {
+                  <div class="tag"
+                       [ngStyle]="{ backgroundColor: label.color}">
+                    {{ label.name }}
+                  </div>
+                }
+
+                <div class="add-tag-btn">
+                  <button mat-stroked-button class="create-label-button tag" (click)="openLabelDialog()">
+                    <mat-icon>add</mat-icon>
+                    Add tag
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Date -->
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="date-field">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dueDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
           </div>
         </form>
-      </div>
-    </div>
-    <div class="file">
-      <p>File</p>
-      <div class="content">
-        <div class="file-content">
-          <mat-icon class="material-symbols-outlined">
-            draft
-          </mat-icon>
-          <p>File.txt</p>
+
+        <!-- Checklist -->
+        <div class="form-group">
+          <div class="checklist-header">
+            <label>Checklist</label>
+            <div class="subtasks-counter">{{ this.completedItems || 0 }}/{{ this.totalItems || 0 }}</div>
+          </div>
+
+          <mat-progress-bar mode="determinate" [value]="getCompletionPercentage()"
+                            style="border-radius: 10px"></mat-progress-bar>
+
+          <!-- Subtasks List -->
+          <div class="subtasks-list">
+            @for (subtask of task.checklistItems; track subtask.id) {
+              <div class="subtask-item" [ngClass]="{'completed': subtask.isCompleted}">
+                <mat-checkbox [checked]="subtask.isCompleted"
+                              (change)="toggleSubtask(subtask.isCompleted, subtask.id!)">
+                  {{ subtask.title }}
+                </mat-checkbox>
+                <button mat-icon-button class="remove-subtask-button" (click)="removeSubtask(subtask.id!)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            }
+
+            <!-- Add New Subtask -->
+            <form [formGroup]="subTaskForm">
+              <div class="add-subtask-container">
+                <mat-checkbox formControlName="isCompleted"></mat-checkbox>
+                <input
+                  matInput
+                  formControlName="title"
+                  class="subtask-input"
+                  (keyup.enter)="addSubtask()"
+                  placeholder="Add a new subtask">
+                <button
+                  mat-icon-button
+                  (click)="addSubtask()">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="file-content-left">
-          <div class="download">
-            <mat-icon class="material-symbols-outlined">download</mat-icon>
+
+
+        <!-- Comments Section -->
+        <div class="form-group">
+          <label>Comments</label>
+
+          <!-- Comments List -->
+          <div class="comments-list">
+            @for (comment of this.comments; track comment.id) {
+              <div class="comment-item">
+                <div class="comment-header">
+                  <div class="comment-user">
+                    <div class="user-avatar">
+                      <img src="{{ (comment.userId! | user | async)?.photoUrl}}"
+                           alt="">
+                    </div>
+                    <span class="user-name">{{ (comment.userId! | user | async)?.name }}</span>
+                  </div>
+                  <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
+                </div>
+                <div class="comment-content">
+                  {{ comment.text }}
+                </div>
+                <div class="comment-actions">
+                  <!--                  <button mat-button class="comment-action-btn">Reply</button>-->
+                  <!--                  <button mat-button class="comment-action-btn" *ngIf="isCurrentUserAuthor(comment)">Edit</button>-->
+                  <button mat-button class="comment-action-btn" *ngIf="isCurrentUserAuthor(comment)"
+                          (click)="deleteComment(comment.id!)">Delete
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Add Comment -->
+          <div class="add-comment-container">
+            <div class="comment-input-wrapper">
+              <div class="user-avatar">
+                <img src="{{ (this.currentUser | user | async)?.photoUrl}}"
+                     alt="">
+              </div>
+              <div class="comment-field-container">
+                <mat-form-field appearance="outline" class="full-width">
+                  <textarea
+                    matInput
+                    [(ngModel)]="newComment"
+                    placeholder="Add your comment..."
+                    #autosize="cdkTextareaAutosize"
+                    [cdkTextareaAutosize]="false"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    (keydown)="handleCommentKeydown($event)"></textarea>
+                  <div class="send-button-wrapper">
+                    <button
+                      mat-icon-button
+                      class="send-button"
+                      [disabled]="!newComment.trim()"
+                      (click)="addComment()">
+                      <mat-icon>send</mat-icon>
+                    </button>
+                  </div>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="task-description-footer">
+        <button mat-stroked-button class="cancel-button" (click)="onClose()">Cancel</button>
+        <button mat-flat-button color="primary" class="save-button" (click)="saveChanges()">Accept</button>
+      </div>
     </div>
+  </div>
 
-        <div class="comments">
-          <mat-icon>list</mat-icon>
-          <p>Comments</p>
-        </div>
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Comments" value="">
-        </mat-form-field>
-
-        <div class="people">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMYEJk1RqILyLrUptMRkn9PT4LfnlWj2Ddrg&s"
-               alt="">
-          <div class="about">
-            <p class="on">HwngLe1801</p>
-            <p class="off">Hay Quá!!</p>
-          </div>
-        </div>
-  </mat-dialog-content>
-
-  <mat-dialog-actions>
-    <button mat-flat-button (click)="close()">Close</button>
-  </mat-dialog-actions>
-
-
-</div>
+}

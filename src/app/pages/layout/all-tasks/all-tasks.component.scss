@@ -11,7 +11,8 @@ p {
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  gap: 8px;
+  gap: 16px;
+  padding: 20px 30px;
 }
 
 .header {
@@ -110,4 +111,8 @@ mat-row:hover {
 mat-paginator {
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
+}
+
+::ng-deep.mat-mdc-paginator {
+  background-color: var(--md-sys-color-on-primary) !important;
 }

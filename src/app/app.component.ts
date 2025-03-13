@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
         console.log(accessToken)
         this.store.dispatch(authActions.storeAccessToken({accessToken: accessToken}));
       } else {
+        this.router.navigate(['/login']);
         console.log('User is signed out');
       }
     })

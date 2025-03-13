@@ -5,6 +5,10 @@
   user-select: none;
 }
 
+.active-link {
+  background-color: var(--md-sys-color-secondary-container);
+}
+
 .sidebar {
   position: relative;
   width: 100%;
@@ -23,6 +27,13 @@
     font-weight: bold;
     gap: 8px;
     padding-bottom: 16px;
+    cursor: pointer;
+
+    img {
+      width: 40px;
+      height: auto;
+      object-fit: cover;
+    }
   }
 
   .btn-create {
@@ -76,6 +87,7 @@
       width: 30px;
       height: 20px;
       margin-right: 8px;
+      object-fit: cover;
     }
 
     ::ng-deep.mat-mdc-list-item-unscoped-content.mdc-list-item__primary-text {
@@ -121,4 +133,22 @@
       }
     }
   }
+}
+
+.see-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--md-sys-color-primary);
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+::ng-deep.mdc-list {
+  padding-bottom: 0 !important;
+  padding-top: 8px !important;
 }

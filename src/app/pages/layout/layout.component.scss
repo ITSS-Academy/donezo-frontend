@@ -56,7 +56,8 @@ content */
 
       #content-routing {
         width: 100%;
-        padding: 20px 30px;
+        height: 100%
+        //padding: 20px 30px;
       }
 
       ::ng-deep .mat-toolbar-single-row {
@@ -92,14 +93,6 @@ mat-list-item p {
   //color: var(--md-sys-color-on-surface-variant) !important;
   transition: transform 0.6s ease-in-out;
   transform: rotate(-270deg) rotateX(180deg) !important;
-}
-
-#content-routing {
-  margin: 0;
-  max-width: 1280px;
-  height: calc(100% - 56px);
-  overflow: unset;
-  width: 90%;
 }
 
 #main-container[_ngcontent-ng-c4137870598]
