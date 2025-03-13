@@ -1,23 +1,23 @@
 <div class="container">
   <h2 mat-dialog-title>Filter</h2>
   <mat-dialog-content class="mat-typography notifications">
-    <section class="example-section">
-      <p class="title">Assignees</p>
-      <span class="example-list-section">
-    <ul>
-      @for (member of members(); track $index) {
-        <li>
-          <mat-checkbox [checked]="member.isChecked" (change)="update($event.checked,member.id)">
-              <img class="avatar"
-                   [src]="(member.id | user | async)?.photoUrl "
-                   alt="Profile">
-            {{ (member.id | user | async)?.name }}
-          </mat-checkbox>
-        </li>
-      }
-    </ul>
-  </span>
-    </section>
+<!--    <section class="example-section">-->
+<!--      <p class="title">Assignees</p>-->
+<!--      <span class="example-list-section">-->
+<!--    <ul>-->
+<!--      @for (member of members(); track $index) {-->
+<!--        <li>-->
+<!--          <mat-checkbox [checked]="member.isChecked" (change)="update($event.checked,member.id)">-->
+<!--              <img class="avatar"-->
+<!--                   [src]="(member.id | user | async)?.photoUrl "-->
+<!--                   alt="Profile">-->
+<!--            {{ (member.id | user | async)?.name }}-->
+<!--          </mat-checkbox>-->
+<!--        </li>-->
+<!--      }-->
+<!--    </ul>-->
+<!--  </span>-->
+<!--    </section>-->
 
     <section class="example-section">
       <p class="title">Tags</p>

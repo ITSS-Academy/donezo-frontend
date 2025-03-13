@@ -103,6 +103,10 @@
   }
 }
 
+.background-item {
+  cursor: pointer;
+}
+
 .selected {
   border: 2px solid var(--md-sys-color-primary);
 }

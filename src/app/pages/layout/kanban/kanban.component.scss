@@ -285,5 +285,6 @@
 }
 
 ::ng-deep.mat-mdc-unelevated-button:not(:disabled) {
-  background-color: var(--md-sys-color-secondary-container);
+  background-color: var(--md-sys-color-primary) !important;
+  color: var(--md-sys-color-on-primary) !important;
 }
