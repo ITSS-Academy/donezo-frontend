@@ -7,6 +7,7 @@ import {BoardState} from '../../../ngrx/board/board.state';
 import {Subscription} from 'rxjs';
 import {BoardModel} from '../../../models/board.model';
 import {NgStyle} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -24,9 +25,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   boards!: BoardModel[];
 
-  constructor(private store: Store<{
-    board: BoardState
-  }>) {
+  constructor(private store: Store<{ board: BoardState }>,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -64,5 +64,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     return board.background as string;
+  }
+
+  navigateToBoard(boardId: string) {
+    this.router.navigate(['/kanban', boardId]).then(r => console.log(r));
   }
 }

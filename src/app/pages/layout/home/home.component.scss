@@ -37,6 +37,12 @@ h5 {
       background-size: cover;
       background-position: center;
 
+      &:hover {
+        .overlay {
+          background: rgba(0, 0, 0, 0.58);
+        }
+      }
+
       .overlay {
         position: absolute;
         top: 0;

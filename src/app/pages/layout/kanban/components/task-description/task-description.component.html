@@ -18,22 +18,6 @@
 
         <!-- Title -->
         <form [formGroup]="taskUpdatedForm">
-          <div class="form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Title</mat-label>
-              <input matInput formControlName="title" #titleInput>
-            </mat-form-field>
-          </div>
-
-          <!-- Notes -->
-          <div class="form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Notes</mat-label>
-              <textarea matInput placeholder="Insert your notes here..."
-                        formControlName="description"></textarea>
-            </mat-form-field>
-          </div>
-
           <!-- Assignee -->
           <div class="form-group">
             <label>Assignee</label>
@@ -64,6 +48,22 @@
               </mat-menu>
 
             </div>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Title</mat-label>
+              <input matInput formControlName="title" #titleInput>
+            </mat-form-field>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Notes</mat-label>
+              <textarea matInput placeholder="Insert your notes here..."
+                        formControlName="description"></textarea>
+            </mat-form-field>
           </div>
 
           <div class="tag-date-container">

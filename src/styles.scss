@@ -265,13 +265,13 @@ $dark-theme: mat.define-theme((
   }
 }
 
-body.light-theme {
-  @include mat.all-component-themes($light-theme);
-}
-
-body.dark-theme {
-  @include mat.all-component-themes($dark-theme);
-}
+//body.light-theme {
+//  @include mat.all-component-colors($light-theme);
+//}
+//
+//body.dark-theme {
+//  @include mat.all-component-colors($dark-theme);
+//}
 
 
 html {
