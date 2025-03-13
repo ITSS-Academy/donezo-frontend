@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {AuthState} from '../../ngrx/auth/auth.state';
 import {environment} from '../../../environments/environment.development';
+import {AuthState} from '../../ngrx/auth.state';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +27,10 @@ export class BackgroundService {
     });
   }
 
+  getAllBackgrounds(): Observable<any> {
+    return this.httpClient.get(`${environment.apiUrl}/background/all`, {
+      headers: {Authorization: this.accessToken},
+    });
+  }
 
 }

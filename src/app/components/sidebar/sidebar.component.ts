@@ -14,11 +14,12 @@ import {AsyncPipe} from '@angular/common';
 import {UserModel} from '../../models/user.model';
 import {UserState} from '../../ngrx/user/user.state';
 import {LogoutComponent} from './logout/logout.component';
+import {BackgroundPipe} from '../../shared/pipes/background.pipe';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [MaterialModule, RouterLink, AsyncPipe, RouterLinkActive],
+  imports: [MaterialModule, RouterLink, AsyncPipe, RouterLinkActive, BackgroundPipe],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
@@ -61,11 +62,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       name: 'All tasks',
       route: '/allTasks',
       icon: 'assignment',
-    },
-    {
-      name: 'Notifications',
-      route: '/notifications',
-      icon: 'notifications',
     },
     {
       name: 'Search',

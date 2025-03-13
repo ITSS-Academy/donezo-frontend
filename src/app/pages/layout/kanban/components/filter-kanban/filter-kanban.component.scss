@@ -1,32 +1,78 @@
-.filter-page {
-  width: 400px;
-  padding: 10px 25px;
-
-  .check {
-    display: flex;
-    flex-direction: column;
-
-    img {
-      width: 25px;
-      height: 25px;
-      border-radius: 50px;
-    }
-  }
-
-  p {
-    margin-bottom: 8px;
-  }
+.container {
+  width: 100%;
+  max-height: 85vh;
+  height: fit-content;
 }
 
-.members-list {
-  p {
-    margin-top: 5px;
-  }
+p {
+  margin: 0;
+}
+
+.notifications {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.example-section {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.example-margin {
+  margin: 0 12px;
+}
+
+ul {
+  list-style-type: none;
+  margin-top: 4px;
+  padding-inline-start: 20px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+::ng-deep.mat-mdc-list-item.mdc-list-item.invite-noti.mdc-list-item--with-leading-icon.mdc-list-item--with-three-lines {
+  height: fit-content;
+}
+
+.mat-mdc-list-item-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+::ng-deep.cdk-overlay-dark-backdrop {
+  background: none;
+}
+
+::ng-deep.cdk-global-overlay-wrapper {
+  display: flex;
+  justify-content: flex-end !important;
+  align-items: flex-start !important;
+}
+
+::ng-deep.cdk-overlay-pane.mat-mdc-dialog-panel {
+  position: inherit !important;
+  right: 20px;
+  top: 47px;
+}
+
+::ng-deep.mat-mdc-dialog-content {
+  max-height: 100%;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
 }
 
 ::ng-deep.mdc-label {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
