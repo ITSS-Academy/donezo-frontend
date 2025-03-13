@@ -5,7 +5,7 @@ import {CreateTagsComponent} from './components/create-tags/create-tags.componen
 import {KanbanNavbarComponent} from './components/kanban-navbar/kanban-navbar.component';
 import {ActivatedRoute} from '@angular/router';
 import * as listActions from '../../../ngrx/list/list.actions';
-import {Observable, Subscription} from 'rxjs';
+import {combineLatest, Observable, Subscription} from 'rxjs';
 import {BoardModel} from '../../../models/board.model';
 import {ListModel} from '../../../models/list.model';
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -36,7 +36,7 @@ import {LabelComponent} from './components/label/label.component';
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [ListTasksComponent, KanbanNavbarComponent, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle, MatLabel],
+  imports: [ListTasksComponent, KanbanNavbarComponent, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle, MaterialModule],
   templateUrl: './kanban.component.html',
   styleUrl: './kanban.component.scss'
 })
@@ -64,6 +64,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
   listName = new FormControl('', [Validators.required]);
 
   subscriptions: Subscription[] = [];
+  isFiltering!: boolean
 
   columns!: ListModel[]
 
@@ -97,9 +98,15 @@ export class KanbanComponent implements OnInit, OnDestroy {
         }
       }),
 
-      this.store.select('list', 'lists').subscribe((lists) => {
-        console.log('list', lists);
-        this.lists = lists;
+      combineLatest([
+        this.store.select('list', 'lists'),
+        this.store.select('list', 'filterLists'),
+        this.store.select('list', 'isFiltering'),
+      ]).subscribe(([lists, filterLists, isFiltering]) => {
+        this.isFiltering = isFiltering;
+        this.lists = isFiltering
+          ? filterLists.filter((list) => list.cards?.length !== 0)
+          : lists;
       }),
       this.store.select('label', 'isGetLabelsInBoardSuccess').subscribe((isSuccess) => {
         if (isSuccess) {

@@ -52,10 +52,10 @@ export class LabelComponent {
 
   searchText = '';
   labels: Label[] = [
-    { name: 'Xanh lá cây', color: '#2ECC71', selected: true },
-    { name: 'Đỏ', color: '#E74C3C', selected: false },
-    { name: 'Tím', color: '#9B59B6', selected: false },
-    { name: 'Xanh dương', color: '#3498DB', selected: false },
+    {name: 'Xanh lá cây', color: '#2ECC71', selected: true},
+    {name: 'Đỏ', color: '#E74C3C', selected: false},
+    {name: 'Tím', color: '#9B59B6', selected: false},
+    {name: 'Xanh dương', color: '#3498DB', selected: false},
   ];
 
   subscriptions: Subscription[] = [];
@@ -70,19 +70,22 @@ export class LabelComponent {
       card: CardState;
       list: ListState;
     }>,
-  ) {}
+    private gateway: GatewayService,
+  ) {
+  }
+
+  cardLabels: Label[] = [];
 
   ngOnInit() {
     this.subscriptions.push(
       this.store.select('label', 'labels').subscribe((labels) => {
         if (labels) {
-          // Lấy danh sách nhãn từ store với selected bằng cái đầu tiên
           this.labels = labels.map((label, index) => {
             return {
               id: label.id!,
               name: label.name!,
               color: label.color!,
-              selected: index === 0,
+              selected: false,
             };
           });
         }
@@ -95,10 +98,21 @@ export class LabelComponent {
       this.store.select('card', 'card').subscribe((card) => {
         if (card) {
           this.cardId = card.id!;
+          this.labels = this.labels
+            ? this.labels.map((label) => {
+              return {
+                ...label,
+                selected:
+                  card.labels?.findIndex(
+                    (cardLabel) => cardLabel.id === label.id,
+                  ) !== -1,
+              };
+            })
+            : [];
         }
       }),
       this.store
-        .select('label', 'isAddLabelToTaskSuccess')
+        .select('label', 'isUpdateLabelSuccess')
         .subscribe((isAddLabelToTaskSuccess) => {
           if (isAddLabelToTaskSuccess) {
             this.dialogRef.close();
@@ -137,13 +151,56 @@ export class LabelComponent {
         (option) => option.value.id,
       ),
     );
-    this.store.dispatch(
-      labelActions.addLabelToTask({
-        taskId: this.cardId,
-        labelIds: this.selectionColor.selectedOptions.selected.map(
-          (option) => option.value.id,
-        ),
-      }),
+    console.log(this.labels);
+    // tìm ra sự thay đổi trong mảng label
+    const selectedLabelIds = this.selectionColor.selectedOptions.selected.map(
+      (option) => option.value.id,
     );
+
+    const addedLabels = this.labels.filter(
+      (label) => selectedLabelIds.includes(label.id) && !label.selected,
+    );
+
+    const removedLabels = this.labels.filter(
+      (label) => !selectedLabelIds.includes(label.id) && label.selected,
+    );
+
+    //so sánh mảng label đã chọn và mảng label đã có để thêm hoặc xóa nhãn
+    this.labels = this.labels.map((label) => ({
+      ...label,
+      selected: selectedLabelIds.includes(label.id),
+    }));
+
+    console.log('Nhãn được thêm:', addedLabels);
+    console.log('Nhãn được xóa:', removedLabels);
+
+    if (addedLabels.length === 0 && removedLabels.length === 0) {
+      return;
+    }
+    if (addedLabels.length > 0) {
+      this.store.dispatch(
+        labelActions.addLabelToTask({
+          taskId: this.cardId,
+          labelIds: addedLabels.map((label) => label.id!),
+        }),
+      );
+    }
+    if (removedLabels.length > 0) {
+      this.store.dispatch(
+        labelActions.removeLabelFromTask({
+          taskId: this.cardId,
+          labelIds: removedLabels.map((label) => label.id!),
+        }),
+      );
+    }
+  }
+
+  deleteLabel(labelToDelete: any) {
+    if (confirm(`Are you sure you want to delete label "${labelToDelete.name}"?`)) {
+      this.labels = this.labels.filter(label => label !== labelToDelete);
+      if (labelToDelete.id) {
+        this.store.dispatch(labelActions.deleteLabel({labelId: labelToDelete.id}));
+      }
+    }
   }
 }

@@ -26,6 +26,8 @@ import * as labelEffects from './ngrx/label/label.effects';
 import * as cardEffects from './ngrx/card/card.effects';
 import * as checklistItemEffects from './ngrx/checklistItem/checklistItem.effects';
 import * as CommentEffects from './ngrx/comment/comment.effects';
+import * as backgroundEffects from './ngrx/background/background.effects';
+import {backgroundReducer} from './ngrx/background/background.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({eventCoalescing: true}), provideRouter(routes), provideAnimationsAsync(),
@@ -40,7 +42,8 @@ export const appConfig: ApplicationConfig = {
       label: labelReducer,
       card: cardReducer,
       checklistItem: checklistItemReducer,
-      comment: commentReducer
+      comment: commentReducer,
+      background: backgroundReducer
     }),
     provideEffects([
       AuthEffects,
@@ -51,7 +54,8 @@ export const appConfig: ApplicationConfig = {
       labelEffects,
       cardEffects,
       checklistItemEffects,
-      CommentEffects
+      CommentEffects,
+      backgroundEffects
     ]),
     provideFirebaseApp(() => initializeApp({
       "projectId": "todolist-246-25a",

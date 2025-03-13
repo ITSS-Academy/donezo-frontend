@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
+import {Injectable} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment.development';
 import {AuthState} from '../../ngrx/auth.state';
 
 @Injectable({
@@ -22,9 +22,6 @@ export class CardService {
   }
 
   getCard(cardId: string) {
-    console.log('call get card');
-    console.log(cardId);
-    console.log(this.accessToken);
     return this.http.get(`${environment.apiUrl}/card/${cardId}`, {
       headers: {
         Authorization: this.accessToken,
@@ -49,7 +46,7 @@ export class CardService {
   addNewMember(cardId: string, userId: string) {
     return this.http.post(
       `${environment.apiUrl}/card/add-new-member`,
-      { cardId, userId },
+      {cardId, userId},
       {
         headers: {
           Authorization: this.accessToken,
@@ -72,4 +69,15 @@ export class CardService {
       },
     );
   }
+
+  getCardsByUserId() {
+    console.log('get card by user');
+    console.log(this.accessToken);
+    return this.http.post(`${environment.apiUrl}/card/get-card-by-user`, {}, {
+      headers: {
+        Authorization: this.accessToken,
+      },
+    });
+  }
+
 }
