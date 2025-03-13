@@ -5,7 +5,7 @@ import {CreateTagsComponent} from './components/create-tags/create-tags.componen
 import {KanbanNavbarComponent} from './components/kanban-navbar/kanban-navbar.component';
 import {ActivatedRoute} from '@angular/router';
 import * as listActions from '../../../ngrx/list/list.actions';
-import {Observable, Subscription} from 'rxjs';
+import {combineLatest, Observable, Subscription} from 'rxjs';
 import {BoardModel} from '../../../models/board.model';
 import {ListModel} from '../../../models/list.model';
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -36,7 +36,7 @@ import {LabelComponent} from './components/label/label.component';
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [ListTasksComponent, KanbanNavbarComponent, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle, MatLabel],
+  imports: [ListTasksComponent, KanbanNavbarComponent, CdkDrag, CdkDropList, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, ReactiveFormsModule, FormsModule, NgStyle, CdkDropListGroup, CdkDragHandle, MaterialModule],
   templateUrl: './kanban.component.html',
   styleUrl: './kanban.component.scss'
 })
@@ -64,6 +64,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
   listName = new FormControl('', [Validators.required]);
 
   subscriptions: Subscription[] = [];
+  isFiltering!: boolean
 
   columns!: ListModel[]
 
@@ -97,11 +98,17 @@ export class KanbanComponent implements OnInit, OnDestroy {
         }
       }),
 
-      this.store.select('list', 'lists').subscribe((lists) => {
-        console.log(lists);
-        this.lists = lists;
+      combineLatest([
+        this.store.select('list', 'lists'),
+        this.store.select('list', 'filterLists'),
+        this.store.select('list', 'isFiltering'),
+      ]).subscribe(([lists, filterLists, isFiltering]) => {
+        this.isFiltering = isFiltering;
+        this.lists = isFiltering
+          ? filterLists.filter((list) => list.cards?.length !== 0)
+          : lists;
       }),
-      this.store.select('label','isGetLabelsInBoardSuccess').subscribe((isSuccess) => {
+      this.store.select('label', 'isGetLabelsInBoardSuccess').subscribe((isSuccess) => {
         if (isSuccess) {
           this.dialog.open(LabelComponent);
         }
@@ -194,7 +201,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
       if (this.lists && this.lists[previousIndex].cards) {
         console.log(this.lists[previousIndex]);
         const updatedColumns = [
-          ...this.lists[previousIndex].cards.map((card: any) => ({ ...card })),
+          ...this.lists[previousIndex].cards.map((card: any) => ({...card})),
         ];
         moveItemInArray(
           updatedColumns,
@@ -203,18 +210,18 @@ export class KanbanComponent implements OnInit, OnDestroy {
         );
         this.lists = this.lists.map((col, index) => {
           if (index === previousIndex) {
-            return { ...col, cards: [...updatedColumns] };
+            return {...col, cards: [...updatedColumns]};
           }
           return col;
         });
       }
     } else {
       const previousContainer = [
-        ...event.previousContainer.data.map((item: any) => ({ ...item })),
+        ...event.previousContainer.data.map((item: any) => ({...item})),
       ];
       console.log(event.container!.data);
       const container = [
-        ...event.container!.data!.map((item: any) => ({ ...item })),
+        ...event.container!.data!.map((item: any) => ({...item})),
       ];
       transferArrayItem(
         previousContainer,
@@ -225,10 +232,10 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
       this.lists = this.lists.map((col, index) => {
         if (index === previousIndex) {
-          return { ...col, cards: [...previousContainer] };
+          return {...col, cards: [...previousContainer]};
         }
         if (index === currentIndex) {
-          return { ...col, cards: [...container] };
+          return {...col, cards: [...container]};
         }
         return col;
       });

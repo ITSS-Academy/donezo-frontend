@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { LabelModel } from '../../models/label.model';
 import { ChecklistItemModel } from '../../models/checklistItem.model';
 import { UserModel } from '../../models/user.model';
+import {ListCard} from '../../models/list.model';
 
 export const getCard = createAction(
   '[Card] Get Card',
@@ -25,6 +26,11 @@ export const updateLabel = createAction(
   }>(),
 );
 
+export const deleteLabelFormCard = createAction(
+  '[Card] Delete Label From Card',
+  props<{ labelIds: string[] }>(),
+);
+
 export const updateCardDetail = createAction(
   '[Card] Update  Card Detail',
   props<{
@@ -43,7 +49,7 @@ export const updateCardDetailSuccess = createAction(
     card: {
       title: string;
       dueDate: Date | null;
-      description: string | null;
+      description: string;
     };
   }>(),
 );
@@ -97,6 +103,18 @@ export const toogleChecklistItem = createAction(
 export const deleteChecklistItem = createAction(
   '[Card] Delete Checklist Item',
   props<{ checklistItemId: string }>(),
+);
+
+export const getCardsByUserId = createAction('[Card] Get Cards By User Id');
+
+export const getCardsByUserIdSuccess = createAction(
+  '[Card] Get Cards By User Id Success',
+  props<{ cards: ListCard[] }>(),
+);
+
+export const getCardsByUserIdFailure = createAction(
+  '[Card] Get Cards By User Id Failure',
+  props<{ error: string }>(),
 );
 
 export const clearCardState = createAction('[Card] Clear Card State');

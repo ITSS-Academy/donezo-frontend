@@ -86,4 +86,19 @@ export class ListService {
       headers: {Authorization: this.accesToken},
     });
   }
+
+  filterCards(labels: string[], userIds: string[], boardId: string) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/card/filter`,
+      {
+        query: {
+          labelIds: labels,
+          memberIds: userIds
+        },
+        boardId
+      },
+      {headers: {Authorization: this.accesToken}}
+    );
+
+  }
 }

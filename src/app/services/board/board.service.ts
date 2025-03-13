@@ -32,10 +32,12 @@ export class BoardService {
 
       return this.httpClient.post(`${environment.apiUrl}/board`, formData, {
         headers: {Authorization: this.accessToken},
-      });
+      })
     }
 
-    return this.httpClient.post(`${environment.apiUrl}/board`, board);
+    return this.httpClient.post(`${environment.apiUrl}/board`, board, {
+      headers: {Authorization: this.accessToken},
+    });
   }
 
   getAllBoards() {
@@ -59,25 +61,57 @@ export class BoardService {
     );
   }
 
-  changeBackground(background: {
-    backgroundId?: string,
-    boardId: string
-  }, file?: File): Observable<any> {
+  changeBackground(
+    background: {
+      backgroundId?: string;
+      boardId: string;
+    },
+    file?: File,
+  ): Observable<any> {
     if (file) {
       const formData = new FormData();
       formData.append('background', file);
       formData.append('boardId', background.boardId);
-      return this.httpClient.put(`${environment.apiUrl}/background/upload`, formData, {
-        headers: {Authorization: this.accessToken},
-      });
+      return this.httpClient.put(
+        `${environment.apiUrl}/background/upload`,
+        formData,
+        {
+          headers: {Authorization: this.accessToken},
+        },
+      );
     } else {
-      return this.httpClient.put(`${environment.apiUrl}/background/upload`, background, {
-        headers: {Authorization: this.accessToken},
-      })
+      return this.httpClient.put(
+        `${environment.apiUrl}/background/upload`,
+        background,
+        {
+          headers: {Authorization: this.accessToken},
+        },
+      );
     }
   }
+
   searchBoards(search: string) {
-    return this.httpClient.post(`${environment.apiUrl}/board/search`, {search}, {
+    return this.httpClient.post(
+      `${environment.apiUrl}/board/search`,
+      {search},
+      {
+        headers: {Authorization: this.accessToken},
+      },
+    );
+  }
+
+  changeBoardName(boardId: string, name: string) {
+    return this.httpClient.put(
+      `${environment.apiUrl}/board/name/${boardId}`,
+      {name},
+      {
+        headers: {Authorization: this.accessToken},
+      },
+    );
+  }
+
+  deleteBoard(boardId: string) {
+    return this.httpClient.delete(`${environment.apiUrl}/board/${boardId}`, {
       headers: {Authorization: this.accessToken},
     });
   }

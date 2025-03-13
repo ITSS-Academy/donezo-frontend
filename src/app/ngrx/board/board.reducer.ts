@@ -1,6 +1,8 @@
-import {BoardState} from './board.state';
+import {BoardModel} from '../../models/board.model';
+
 import {createReducer, on} from '@ngrx/store';
 import * as boardActions from './board.actions';
+import {BoardState} from './board.state';
 
 const initialState: BoardState = {
   board: null,
@@ -21,6 +23,23 @@ const initialState: BoardState = {
   isInvitedBoardsGetting: false,
   invitedBoardsGettingError: null,
   isGetInvitedBoardsSuccess: false,
+
+  isChangingBoardBackground: false,
+  changeBoardBackgroundError: null,
+  isChangeBoardBackgroundSuccess: false,
+
+  isSearchingBoards: false,
+  searchedBoards: null,
+  searchBoardsError: null,
+  isSearchBoardsSuccess: false,
+
+  isChangingBoardName: false,
+  changeBoardNameError: null,
+  isChangeBoardNameSuccess: false,
+
+  isDeletingBoard: false,
+  deleteBoardError: null,
+  isDeleteBoardSuccess: false,
 };
 
 export const boardReducer = createReducer(
@@ -138,6 +157,185 @@ export const boardReducer = createReducer(
       invitedBoards: state.invitedBoards
         ? [board, ...state.invitedBoards]
         : [board],
+    };
+  }),
+  on(boardActions.searchBoards, (state, {type}) => {
+    console.log(type)
+    return {
+      ...state,
+      isSearchingBoards: true,
+      searchBoardsError: null,
+      isSearchBoardsSuccess: false,
+    };
+  }),
+  on(boardActions.searchBoardsSuccess, (state, {boards}) => {
+    console.log(boards)
+    return {
+      ...state,
+      searchedBoards: boards,
+      isSearchingBoards: false,
+      searchBoardsError: null,
+      isSearchBoardsSuccess: true,
+    };
+  }),
+  on(boardActions.searchBoardsFail, (state, {error}) => {
+    return {
+      ...state,
+      isSearchingBoards: false,
+      searchBoardsError: error,
+      isSearchBoardsSuccess: false,
+    };
+  }),
+  on(boardActions.clearBoardBackground, (state) => {
+    return {
+      ...state,
+      board: null,
+    };
+  }),
+  on(boardActions.changeBoardBackground, (state) => {
+    return {
+      ...state,
+      isChangingBoardBackground: true,
+      changeBoardBackgroundError: null,
+      isChangeBoardBackgroundSuccess: false,
+    };
+  }),
+  on(
+    boardActions.changeBoardBackgroundSuccess,
+    (state, {boardId, backgroundId, background}) => {
+      return {
+        ...state,
+        board: state.board
+          ? {
+            ...state.board,
+            backgroundId: backgroundId,
+            background: background
+              ? {fileLocation: background.fileLocation}
+              : null,
+          }
+          : null,
+        boards: state.boards
+          ? state.boards.map((board) => {
+            if (board.id === boardId) {
+              return {
+                ...board,
+                backgroundId: backgroundId,
+              };
+            }
+            return board;
+          })
+          : [],
+        isChangingBoardBackground: false,
+        changeBoardBackgroundError: null,
+        isChangeBoardBackgroundSuccess: true,
+      };
+    },
+  ),
+  on(boardActions.changeBoardBackgroundFail, (state, {error}) => {
+    return {
+      ...state,
+      isChangingBoardBackground: false,
+      changeBoardBackgroundError: error,
+      isChangeBoardBackgroundSuccess: false,
+    };
+  }),
+  on(boardActions.listenBackgroundChange, (state, {background, boardId}) => {
+    console.log(background, boardId);
+    console.log(state.boards);
+    return {
+      ...state,
+      board: state.board
+        ? {
+          ...state.board,
+          background: background,
+        }
+        : null,
+      boards: state.boards
+        ? state.boards.map((board) => {
+          if (board.id === boardId) {
+            return {
+              ...board,
+              background: background,
+              backgroundId: background.id,
+            };
+          }
+          return board;
+        })
+        : [],
+    };
+  }),
+  on(boardActions.changeBoardName, (state) => {
+    return {
+      ...state,
+      isChangingBoardName: true,
+      changeBoardNameError: null,
+      isChangeBoardNameSuccess: false,
+    };
+  }),
+  on(boardActions.changeBoardNameSuccess, (state, {boardId, name}) => {
+    return {
+      ...state,
+      board: state.board
+        ? {
+          ...state.board,
+          name: name,
+        }
+        : null,
+      boards: state.boards
+        ? state.boards.map((board: BoardModel) => {
+          if (board.id === boardId) {
+            return {
+              ...board,
+              name: name,
+            };
+          }
+          return board;
+        })
+        : [],
+      isChangingBoardName: false,
+      changeBoardNameError: null,
+      isChangeBoardNameSuccess: true,
+    };
+  }),
+  on(boardActions.changeBoardNameFail, (state, {error}) => {
+    return {
+      ...state,
+      isChangingBoardName: false,
+      changeBoardNameError: error,
+      isChangeBoardNameSuccess: false,
+    };
+  }),
+  on(boardActions.deleteBoard, (state) => {
+    return {
+      ...state,
+      isDeletingBoard: true,
+      deleteBoardError: null,
+      isDeleteBoardSuccess: false,
+    };
+  }),
+  on(boardActions.deleteBoardSuccess, (state, {boardId}) => {
+    return {
+      ...state,
+      boards: state.boards
+        ? state.boards.filter((board) => board.id !== boardId)
+        : [],
+      isDeletingBoard: false,
+      deleteBoardError: null,
+      isDeleteBoardSuccess: true,
+    };
+  }),
+  on(boardActions.deleteBoardFail, (state, {error}) => {
+    return {
+      ...state,
+      isDeletingBoard: false,
+      deleteBoardError: error,
+      isDeleteBoardSuccess: false,
+    };
+  }),
+  on(boardActions.clearSearchBoards, (state) => {
+    return {
+      ...state,
+      searchedBoards: null,
     };
   }),
 );

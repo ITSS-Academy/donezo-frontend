@@ -12,7 +12,7 @@
           class="drawer"
         >
           @if (activeDrawer == 'Search') {
-            <app-search></app-search>
+            <app-search (onToggleDrawer)="toggleDrawer($event)"></app-search>
           }
           @if (activeDrawer == 'Notifications') {
             <app-notifications></app-notifications>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
@@ -14,6 +14,9 @@ import {BoardState} from '../../../../../ngrx/board/board.state';
 import {NotificationsService} from '../../../../../services/notifications-api/notifications.service';
 import {UserService} from '../../../../../services/user/user.service';
 import * as userActions from '../../../../../ngrx/user/user.actions';
+import {MaterialModule} from '../../../../../shared/modules/material.module';
+import * as labelActions from '../../../../../ngrx/label/label.actions';
+import {LabelState} from '../../../../../ngrx/label/label.state';
 
 @Component({
   selector: 'app-kanban-navbar',
@@ -22,11 +25,12 @@ import * as userActions from '../../../../../ngrx/user/user.actions';
     MatIcon,
     NgForOf,
     NgIf,
+    MaterialModule
   ],
   templateUrl: './kanban-navbar.component.html',
   styleUrl: './kanban-navbar.component.scss'
 })
-export class KanbanNavbarComponent implements OnInit {
+export class KanbanNavbarComponent implements OnInit, OnDestroy {
   avatars = [
     {
       member: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s']
@@ -47,10 +51,13 @@ export class KanbanNavbarComponent implements OnInit {
                 user: UserState;
                 notifications: NotificationsState;
                 board: BoardState;
+                label: LabelState
               }>,
               private notiSocket: NotificationsService,
               private userService: UserService,) {
   }
+
+  boardId!: string;
 
   ngOnInit(): void {
     this.subcriptions.push(
@@ -60,11 +67,19 @@ export class KanbanNavbarComponent implements OnInit {
           console.log('ownerId', this.ownerId);
           this.memberIds = board.members!;
           console.log('memberIds', this.memberIds);
+          this.boardId = board.id!;
           forkJoin(
             this.memberIds.map((member) => this.userService.getUserById(member)),
           ).subscribe((users) => {
             this.members = users;
             console.log('members', this.members);
+          });
+        }
+      }),
+      this.store.select('label', 'isGetLabelForFilterSuccess').subscribe((success) => {
+        if (success) {
+          const dialogRef = this.dialog.open(FilterKanbanComponent, {
+            data: {}
           });
         }
       }),
@@ -103,6 +118,10 @@ export class KanbanNavbarComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    this.subcriptions.forEach(sub => sub.unsubscribe());
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(EditBackgroundComponent, {
       data: {} // Pass any data you need to the dialog here
@@ -124,15 +143,7 @@ export class KanbanNavbarComponent implements OnInit {
   }
 
   openDialogFilter(): void {
-    const dialogRef = this.dialog.open(FilterKanbanComponent, {
-      data: {} // Pass any data you need to the dialog here
-    });
+    this.store.dispatch(labelActions.getLabelForFilter({id: this.boardId}));
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('The dialog was closed with result:', result);
-        // Handle the result here
-      }
-    });
   }
 }
