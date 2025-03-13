@@ -152,7 +152,7 @@ export const changeBoardNameEffect = createEffect(
           map((data: any) => {
             return boardActions.changeBoardNameSuccess({
               boardId,
-              name: data.name,
+              name: name,
             });
           }),
           catchError((error) => {
@@ -187,3 +187,4 @@ export const deleteBoardEffect = createEffect(
   },
   { functional: true },
 );
+

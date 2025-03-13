@@ -34,11 +34,8 @@
     @if (boards$ | async; as boards) {
       @for (board of boards.slice(0, 4); track $index) {
         <mat-list-item [routerLink]="['/kanban', board.id]" routerLinkActive="active-link">
-          @if (board.background) {
-            <img [src]="getBackgroundUrl(board)" alt="Board Background" class="background">
-          } @else {
             <img src="{{(board.backgroundId! | background | async)}}" alt="Board Background" class="background">
-          }
+
           <span>{{ board.name }}</span>
         </mat-list-item>
       }

@@ -1,4 +1,3 @@
-<form [formGroup]="boardForm">
   <div class="container">
     <div class="new-board">
       <div class="top">
@@ -9,7 +8,7 @@
       <div class="bottom">
         <p>Backgrounds</p>
         <div class="background">
-          @for (background of imageList; track $index) {
+          @for (background of this.imageBackgrounds; track $index) {
             @if ($index < 8) {
               <img class="background-item"
                    [ngClass]="this.newBoardImage === background.fileLocation? 'selected': ''"
@@ -21,10 +20,10 @@
                     fontIcon="more_horiz"></mat-icon>
         </div>
         <div class="name">
-          <button mat-flat-button (click)="createBoard()">Save</button>
+          <button mat-flat-button (click)="onAccept()">Save</button>
         </div>
       </div>
     </div>
   </div>
-  <input type="file" style="display: none" #inputFile (change)="this.onFileChange($event)" accept="image/*">
-</form>
+  <input type="file" style="display: none" #inputFile (change)="this.onImageUpload($event)" accept="image/*">
+

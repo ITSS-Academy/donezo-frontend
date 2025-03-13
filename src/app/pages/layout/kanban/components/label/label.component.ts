@@ -10,7 +10,6 @@ import {LabelState} from '../../../../../ngrx/label/label.state';
 import {BoardState} from '../../../../../ngrx/board/board.state';
 import {CardState} from '../../../../../ngrx/card/card.state';
 import {ListState} from '../../../../../ngrx/list/list.state';
-import {GatewayService} from '../../../../../services/gateway/gateway.service';
 import * as labelActions from '../../../../../ngrx/label/label.actions';
 import {FormsModule} from '@angular/forms';
 import {NgForOf, NgStyle} from '@angular/common';
@@ -70,7 +69,6 @@ export class LabelComponent {
       card: CardState;
       list: ListState;
     }>,
-    private gateway: GatewayService,
   ) {
   }
 
