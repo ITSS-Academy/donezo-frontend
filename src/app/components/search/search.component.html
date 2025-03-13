@@ -3,19 +3,23 @@
   <hr>
   <form class="example-form">
     <mat-form-field class="example-full-width">
-      <div id="search-text">
-        <input type="text"  matInput [formControl]="myControl" [matAutocomplete]="auto">
-        <mat-icon matPrefix>search</mat-icon>
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
-          @for (option of filteredOptions | async; track option) {
-            <div class="option-item">
-              <img src="https://images.pexels.com/photos/1480807/pexels-photo-1480807.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    class="option-icon">
-            <mat-option [value]="option">{{option.name}}</mat-option>
-            </div>
-          }
-        </mat-autocomplete>
-      </div>
+      <input type="text"
+             placeholder="Search"
+             matInput
+             [formControl]="myControl"
+             [matAutocomplete]="auto">
+      <mat-icon matPrefix>search</mat-icon>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        @for (option of filteredOptions | async; track option) {
+          <mat-option [value]="option">
+            <img
+              src="https://images.pexels.com/photos/1480807/pexels-photo-1480807.jpeg?auto=compress&cs=tinysrgb&w=600"
+              class="option-icon">
+            {{ option.name }}
+          </mat-option>
+        }
+      </mat-autocomplete>
     </mat-form-field>
   </form>
+
 </div>

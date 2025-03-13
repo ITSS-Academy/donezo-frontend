@@ -11,7 +11,8 @@
   <h5>My Board</h5>
   <div class="board-list">
     @for (board of boards; track $index) {
-      <div class="board" [ngStyle]="{ 'background-image': 'url(' + getBackgroundUrl(board) + ')' }">
+      <div class="board" [ngStyle]="{ 'background-image': 'url(' + getBackgroundUrl(board) + ')' }"
+           (click)="navigateToBoard(board.id!)">
         <div class="overlay"></div>
 
         <p>{{ board.name }}</p>
@@ -32,6 +33,7 @@
   <h5>Invited boards</h5>
   <div class="board-list">
     <div class="board">
+      <div class="overlay"></div>
       <p>Trip To Japan</p>
     </div>
   </div>
