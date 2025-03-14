@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
@@ -11,6 +11,8 @@ import * as boardActions from '../../../../../ngrx/board/board.actions';
 import {NgClass} from '@angular/common';
 import {BackgroundState} from '../../../../../ngrx/background/background.state';
 import * as backgroundActions from '../../../../../ngrx/background/background.actions';
+import {Subscription} from 'rxjs';
+import {AuthState} from '../../../../../ngrx/auth.state';
 
 @Component({
   selector: 'app-edit-background',
@@ -27,53 +29,113 @@ import * as backgroundActions from '../../../../../ngrx/background/background.ac
   templateUrl: './edit-background.component.html',
   styleUrl: './edit-background.component.scss'
 })
-export class EditBackgroundComponent implements OnInit {
-  newBoardImage: string = 'https://images.pexels.com/photos/1632780/pexels-photo-1632780.jpeg?auto=compress&cs=tinysrgb&w=600';
-  file!: File;
-  nameControl: FormControl = new FormControl('');
+export class EditBackgroundComponent implements OnInit, OnDestroy {
+  newBoardImage: string = '';
 
-  imageList: any[] = [];
+
+  imageUrl: string = '';
+  file: File | null = null;
+  boardId: string = '';
   backgroundId: string = '';
+  imagePreview: string | null = null;
+  subscriptions: Subscription[] = [];
 
-  constructor(private store: Store<{ board: BoardState, background: BackgroundState }>,
-              public dialogRef: MatDialogRef<EditBackgroundComponent>) {
-    this.store.dispatch(backgroundActions.getBackgrounds());
+  imageBackgrounds: { id: string; fileLocation: string }[] = [];
 
-  }
-
-  boardForm = new FormGroup({
-    title: new FormControl('', [Validators.required]),
-    image: new FormControl<File | null>(null, [Validators.required]),
+  form = new FormGroup({
+    image: new FormControl<File | null>(null),
   });
 
-  ngOnInit() {
-    this.store.select('background', 'backgrounds').subscribe(backgrounds => {
-      if (backgrounds) {
-        this.imageList = backgrounds;
-        this.newBoardImage = this.imageList[0].fileLocation;
-        this.backgroundId = this.imageList[0].id;
-        console.log('Backgrounds:', this.imageList);
-      }
-    })
+  constructor(
+    private dialogRef: MatDialogRef<EditBackgroundComponent>,
+    private store: Store<{
+      auth: AuthState;
+      board: BoardState;
+      background: BackgroundState;
+    }>
+  ) {
+    this.store.dispatch(backgroundActions.getBackgrounds());
   }
 
-  onFileChange(event: any): void {
-    this.file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(this.file);
-    reader.onload = () => {
-      this.newBoardImage = reader.result as string;
+  ngOnInit() {
+    this.subscriptions.push(
+      this.store.select('board', 'board').subscribe((board) => {
+        if (board?.id) {
+          this.boardId = board.id;
+        }
+      }),
+      this.store.select('background', 'backgrounds').subscribe((backgrounds) => {
+        if (backgrounds?.length) {
+          this.imageBackgrounds = [...backgrounds];
+          this.onBackgroundSelected(backgrounds[0].fileLocation);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
+  selectBackground(fileLocation: string, id: string) {
+    this.newBoardImage = fileLocation;
+    this.backgroundId = id;
+    this.file = null;
+  }
+
+  onImageUpload(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.file = input.files[0];
+      this.imageUrl = '';
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.newBoardImage = reader.result as string;
+      };
+      reader.readAsDataURL(this.file);
     }
   }
 
-  createBoard(): void {
-    this.store.dispatch(boardActions.createBoard({board: {name: this.nameControl.value, background: this.file}}));
+  onAccept() {
+    if (!this.imageUrl && !this.file) {
+      // Thông báo lỗi (có thể dùng MatSnackBar)
+      return;
+    }
+
+    if (this.file) {
+      this.dispatchBackgroundChange(this.file);
+    } else if (this.backgroundId) {
+      this.dispatchBackgroundChange(this.backgroundId);
+    }
+
     this.dialogRef.close();
   }
 
-  selectBackground(fileLocation: any, id: string) {
-    this.newBoardImage = fileLocation
-    this.boardForm.get('image')?.setValue(null)
-    this.backgroundId = id
+  dispatchBackgroundChange(background: File | string) {
+    if ( background instanceof File) {
+      this.store.dispatch(
+        boardActions.changeBoardBackground({
+          boardId: this.boardId,
+          background: background,
+        })
+      );
+    }else {
+      this.store.dispatch(
+        boardActions.changeBoardBackground({
+          boardId: this.boardId,
+          backgroundId: background,
+        })
+      );
+    }
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  onBackgroundSelected(fileLocation: string) {
+    this.imageUrl = fileLocation;
+    this.imagePreview = fileLocation;
   }
 }

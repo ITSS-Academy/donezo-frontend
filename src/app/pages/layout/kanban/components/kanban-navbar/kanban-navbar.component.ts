@@ -72,12 +72,14 @@ export class KanbanNavbarComponent implements OnInit, OnDestroy {
   }
 
   boardId!: string;
+  boardName!: string;
 
   ngOnInit(): void {
     this.subcriptions.push(
       this.store.select('board', 'board').subscribe((board) => {
         if (board) {
           this.ownerId = board.ownerId!;
+          this.boardName = board.name!;
           console.log('ownerId', this.ownerId);
           this.memberIds = board.members!;
           console.log('memberIds', this.memberIds);
