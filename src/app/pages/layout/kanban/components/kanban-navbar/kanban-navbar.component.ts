@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
@@ -17,6 +17,7 @@ import * as userActions from '../../../../../ngrx/user/user.actions';
 import {MaterialModule} from '../../../../../shared/modules/material.module';
 import * as labelActions from '../../../../../ngrx/label/label.actions';
 import {LabelState} from '../../../../../ngrx/label/label.state';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-kanban-navbar',
@@ -25,7 +26,8 @@ import {LabelState} from '../../../../../ngrx/label/label.state';
     MatIcon,
     NgForOf,
     NgIf,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ],
   templateUrl: './kanban-navbar.component.html',
   styleUrl: './kanban-navbar.component.scss'
@@ -46,6 +48,17 @@ export class KanbanNavbarComponent implements OnInit, OnDestroy {
   memberIds!: string[];
   members!: UserModel[];
 
+  inputValue: string = 'Board Name';
+  placeholder: string = 'Board Name';
+  isEditing: boolean = false;
+  inputWidth: number = 12;
+  isFiltering!: boolean;
+
+  @ViewChild('textInput', { static: false })
+  textInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('textMeasurer', { static: true })
+  textMeasurer!: ElementRef<HTMLSpanElement>;
+
   constructor(public dialog: MatDialog,
               private store: Store<{
                 user: UserState;
@@ -54,7 +67,8 @@ export class KanbanNavbarComponent implements OnInit, OnDestroy {
                 label: LabelState
               }>,
               private notiSocket: NotificationsService,
-              private userService: UserService,) {
+              private userService: UserService,
+              private cdr: ChangeDetectorRef,) {
   }
 
   boardId!: string;
@@ -120,6 +134,33 @@ export class KanbanNavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subcriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  adjustWidth(): void {
+    if (this.textMeasurer) {
+      this.textMeasurer.nativeElement.textContent = this.inputValue
+        ? this.inputValue
+        : '';
+      this.inputWidth = this.textMeasurer.nativeElement.offsetWidth;
+    }
+  }
+
+  enableEditing(): void {
+    this.isEditing = true;
+
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.adjustWidth();
+      this.textInput.nativeElement.focus();
+      this.textInput.nativeElement.select();
+    }, 0);
+  }
+
+  disableEditing(): void {
+    // this.store.dispatch(
+    //   boardActions.changeBoardName({ boardId: this.id, name: this.inputValue }),
+    // );
+    this.isEditing = false;
   }
 
   openDialog(): void {

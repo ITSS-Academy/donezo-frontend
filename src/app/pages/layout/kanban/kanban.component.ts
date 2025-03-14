@@ -142,6 +142,8 @@ export class KanbanComponent implements OnInit, OnDestroy {
         }),
       );
       this.listName.reset();
+      this.isAddingList = false;
+      this.store.dispatch(listActions.clearFilterArrays());
     }
   }
 
@@ -335,6 +337,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
   }
 
   openDialog(columnId: any): void {
+    this.isAddingList = false;
     const dialogRef = this.dialog.open(TaskComponent, {
       width: '300px',
       data: columnId
